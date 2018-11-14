@@ -8,8 +8,34 @@ APP.plotComplete = function () {
         $("#raw-data").dataTable({
             data: table,
             columns: [
-                { data: "Author" },
-                { data: "Title" }
+                { 
+                    data: "Author",
+                    title: "Author"
+                },
+                { 
+                    data: "URL",
+                    title: "URL"
+                },
+                { 
+                    data: "QuoteFrequency",
+                    title: "Quote Frequency"
+                },
+                { 
+                    data: "EmotionalLanguage",
+                    title: "Emotional Language Frequency"
+                },
+                { 
+                    data: "AuthorTrustworthiness",
+                    title: "Author Trustworthiness"
+                },
+                { 
+                    data: "UpdatedDate",
+                    title: "Updated Date"
+                },
+                { 
+                    data: "Title",
+                    title: "Title"
+                }
             ]
         });
 
