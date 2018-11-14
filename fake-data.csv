@@ -1,5 +1,5 @@
 Title,Description,Time,URL,Author,QuoteFrequency,EmotionalLanguage,AuthorTrustworthiness,UpdatedDate,AdvertisementCount
-Title1,Description1,Time1,URL1,Author1,0.1,0.5,0.5,0.5,80
+Title1,Description1,Time1,URL1,Author1,10000,10000,-50000,50000,80000
 Title2,Description1,Time1,URL2,Author1,0.5,0.5,0.1,0.2,50
 Title3,Description1,Time1,URL3,Author1,0.3,0.5,0.5,0.5,50
 Title4,Description1,Time1,URL4,Author1,0.5,0.6,0.5,0.6,60
