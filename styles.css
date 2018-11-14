@@ -5,3 +5,7 @@
 #vis-title {
     text-align: center;
 }
+
+svg {
+    margin: 10px;
+}
