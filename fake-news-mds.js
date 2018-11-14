@@ -1,5 +1,6 @@
 var APP = APP || {};
-APP.completeFile = "complete.csv";
+//APP.completeFile = "complete.csv";
+APP.completeFile = "fake-data.csv";
 APP.plotComplete = function () {
     d3.csv(APP.completeFile).then(plot);
 
@@ -70,7 +71,7 @@ APP.plotComplete = function () {
         //  graph.attrs = array of attribute names in the table, not including "Name".
         //  graph.norms = dict of zscore normalization factors for each attribute, for Distance().
         function TableToGraph(table) {
-            APP.table = table;
+            APP.table = APP.table || table;
             var graph = {'vertices':table, 'edges':[], 'norms':{}, 'attrs':Object.keys(table[0])};
             graph.attrs.splice(graph.attrs.indexOf('Name'), 1);  //remove "Name"
             // Compute zscore norms for each attribute:
