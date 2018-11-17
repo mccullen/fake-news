@@ -137,4 +137,6 @@ APP.plotComplete = async function () {
     }
 }
 APP.plotComplete();
-$.post("test/test.html", "Hello");
+$.post("test/test.html", "Hello").done(json => {
+    console.log(json);
+});

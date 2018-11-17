@@ -2,15 +2,22 @@ import http.server
 import socketserver
 from http.server import BaseHTTPRequestHandler, SimpleHTTPRequestHandler
 import cgi
+import json
 
 PORT = 8000
 
 class MyHandler(SimpleHTTPRequestHandler):
     def do_POST(self):
         print(self.path)
-        content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
-        post_data = self.rfile.read(content_length) # <--- Gets the data itself
+        content_length = int(self.headers['Content-Length'])
+        post_data = self.rfile.read(content_length)
         print(post_data)
+        data = {"hello": "world"}
+        self.send_response(200)
+        self.send_header('Content-Type', 'application/json')
+        self.end_headers()
+        self.wfile.write(json.dumps(data).encode())
+        return
 
 Handler = MyHandler
 
