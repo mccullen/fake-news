@@ -81,6 +81,10 @@ APP.plotComplete = async function () {
                     })
                     .on("mouseout", function (d, i) {
                             d3.select(this).classed("highlight", false);
+                    })
+                    .on("click", (d, i) => {
+                        console.log("clicked");
+                        // todo: display content in modal
                     });
 
 
@@ -144,7 +148,7 @@ $(document).ready(function() {
     $("#add-article-btn").on("click", event => {
         var url = prompt("Enter url", "");
         var author = prompt("Enter author", "");
-        if (url && author) {
+        if (url) {
             $.post("", {url: url, author: author}).done(jsonResponse => {
                 console.log(jsonResponse);
             });
