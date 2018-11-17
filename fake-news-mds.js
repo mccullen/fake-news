@@ -137,6 +137,16 @@ APP.plotComplete = async function () {
     }
 }
 APP.plotComplete();
-$.post("test/test.html", "Hello").done(json => {
+/*$.post("test/test.html", "Hello").done(json => {
     console.log(json);
+});*/
+$(document).ready(function() {
+    $("#add-article-btn").on("click", event => {
+        var url = prompt("Enter url", "");
+        if (url) {
+            $.post("", url).done(jsonResponse => {
+                console.log(jsonResponse);
+            });
+        }
+    });
 });

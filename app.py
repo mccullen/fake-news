@@ -10,9 +10,9 @@ class MyHandler(SimpleHTTPRequestHandler):
     def do_POST(self):
         print(self.path)
         content_length = int(self.headers['Content-Length'])
-        post_data = self.rfile.read(content_length)
+        post_data = str(self.rfile.read(content_length).decode("utf-8"))
         print(post_data)
-        data = {"hello": "world"}
+        data = {"hello": post_data}
         self.send_response(200)
         self.send_header('Content-Type', 'application/json')
         self.end_headers()
