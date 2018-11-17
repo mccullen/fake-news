@@ -1,18 +1,16 @@
 var APP = APP || {};
 //APP.completeFile = "complete.csv";
 APP.completeFile = "fake-data.csv";
-APP.loadTable = function () {
-    return APP.table ? APP.table : d3.csv(APP.completeFile);
-};
+// Plot table.
 APP.plotComplete = async function () {
     //APP.loadTable().then(plot);
     APP.table = APP.table || await d3.csv(APP.completeFile);
-    plot(APP.table);
+    plot();
 
-    function plot(table) {
+    function plot() {
         $(document).ready(function() {
             $("#raw-data").DataTable({
-                data: table,
+                data: APP.table,
                 columns: [
                     { 
                         data: "Author",
@@ -51,8 +49,8 @@ APP.plotComplete = async function () {
         });
 
 
-        var graph = TableToGraph(table);  // See docs below about graph data structure.
-        console.log(graph);  // See graph contents in browser console.
+        var graph = TableToGraph();  // See docs below about graph data structure.
+        console.log(APP.table);  // See graph contents in browser console.
 
         // Set up the D3 Force layout.
         // Simulation will compute 2D locations of vertices as graph.vertices[i].x and .y
@@ -107,9 +105,8 @@ APP.plotComplete = async function () {
         //		edge.distance = Distance(source, target).
         //  graph.attrs = array of attribute names in the table, not including "Name".
         //  graph.norms = dict of zscore normalization factors for each attribute, for Distance().
-        function TableToGraph(table) {
-            APP.table = APP.table || table;
-            var graph = {'vertices':table, 'edges':[], 'norms':{}, 'attrs':Object.keys(table[0])};
+        function TableToGraph() {
+            var graph = {'vertices':APP.table, 'edges':[], 'norms':{}, 'attrs':Object.keys(APP.table[0])};
             //graph.attrs.splice(graph.attrs.indexOf('Name'), 1);  //remove "Name"
             graph.attrs.splice(graph.attrs.indexOf('Author'), 1);  //remove "Name"
             graph.attrs.splice(graph.attrs.indexOf('URL'), 1);  //remove "Name"
@@ -118,10 +115,10 @@ APP.plotComplete = async function () {
             graph.attrs.splice(graph.attrs.indexOf('Time'), 1);  //remove "Name"
             // Compute zscore norms for each attribute:
             for (var attr of graph.attrs)
-                graph.norms[attr] = d3.deviation(table, row => row[attr]);
+                graph.norms[attr] = d3.deviation(APP.table, row => row[attr]);
             // Compute all-pairs edges as array of {source:ref, target:ref, distance:value}
-            table.forEach( (src, isrc) =>
-                table.forEach( (dst, idst) => {
+            APP.table.forEach( (src, isrc) =>
+                APP.table.forEach( (dst, idst) => {
                     if(isrc < idst)	 // no duplicate edges
                         graph.edges.push( {'source': src, 'target': dst, 'distance': Distance(src,dst,graph.norms)} );
             }));
@@ -140,3 +137,4 @@ APP.plotComplete = async function () {
     }
 }
 APP.plotComplete();
+$.post("test/test.html", "Hello");
