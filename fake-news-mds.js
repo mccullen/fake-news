@@ -143,8 +143,9 @@ APP.plotComplete();
 $(document).ready(function() {
     $("#add-article-btn").on("click", event => {
         var url = prompt("Enter url", "");
-        if (url) {
-            $.post("", url).done(jsonResponse => {
+        var author = prompt("Enter author", "");
+        if (url && author) {
+            $.post("", {url: url, author: author}).done(jsonResponse => {
                 console.log(jsonResponse);
             });
         }
