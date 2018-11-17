@@ -1,8 +1,13 @@
 var APP = APP || {};
 //APP.completeFile = "complete.csv";
 APP.completeFile = "fake-data.csv";
-APP.plotComplete = function () {
-    d3.csv(APP.completeFile).then(plot);
+APP.loadTable = function () {
+    return APP.table ? APP.table : d3.csv(APP.completeFile);
+};
+APP.plotComplete = async function () {
+    //APP.loadTable().then(plot);
+    APP.table = APP.table || await d3.csv(APP.completeFile);
+    plot(APP.table);
 
     function plot(table) {
         $(document).ready(function() {
