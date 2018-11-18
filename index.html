@@ -25,12 +25,48 @@
     <script src="./fake-news-mds.js"></script>
 </head>
 <body>
-    <h2 id="vis-title">Fake News Visualization</h2>
-	<p id="details"></p>
-	<svg width="800" height="600" style="border:1px solid grey">
-    </svg>
-    <hr>
-    <button id="add-article-btn">Add Article</button>
-    <table class="display" id="raw-data"></table>
+    <div id="container">
+        <h2 id="vis-title">Fake News Visualization</h2>
+        <p id="details"></p>
+
+        <div class="attribute-selection">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="QuoteFrequency" id="quote-freq-check" checked>
+                <label class="form-check-label" for="defaultCheck1">
+                    Quote Frequency
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="EmotionalLanguage" id="emotional-lang-check" checked>
+                <label class="form-check-label" for="defaultCheck1">
+                    Emotional Language Frequency
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="AuthorTrustworthiness" id="author-trust-check" checked>
+                <label class="form-check-label" for="defaultCheck1">
+                    Author Trustworthiness
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="UpdatedDate" id="updated-date-check" checked>
+                <label class="form-check-label" for="defaultCheck1">
+                    Updated Date
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="AdvertisementCount" id="advertisement-count-check" checked>
+                <label class="form-check-label" for="defaultCheck1">
+                    Advertisement Count
+                </label>
+            </div>
+        </div>
+
+        <svg width="800" height="600" style="border:1px solid grey">
+        </svg>
+        <hr>
+        <button id="add-article-btn">Add Article</button>
+        <table class="display" id="raw-data"></table>
+    </div>
 </body>
 </html>
