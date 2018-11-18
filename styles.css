@@ -12,4 +12,13 @@ svg {
 
 #container {
     margin: 10px;
+    text-align: center;
+}
+
+.attribute-selection {
+    text-align: left;
+}
+
+.lower-pane {
+    text-align: left;
 }

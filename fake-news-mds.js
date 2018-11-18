@@ -57,7 +57,7 @@ APP.plotComplete = async function () {
 
         // Set up the D3 Force layout.
         // Simulation will compute 2D locations of vertices as graph.vertices[i].x and .y
-        var forces = d3.forceSimulation(graph.vertices)
+        var simulation = d3.forceSimulation(graph.vertices)
             .force("spring", d3.forceLink(graph.edges).distance(edge => 10*(edge.distance+30))
                 // Set various useful properties of the forceLink here...
                 // Hint: give .distance() an appropriate function.
@@ -90,7 +90,6 @@ APP.plotComplete = async function () {
                         // todo: display content in modal
                     });
 
-
             // Make text labels for dots:
             d3.select("svg").selectAll("text")
                 .data(graph.vertices)
@@ -117,7 +116,6 @@ APP.plotComplete = async function () {
                 .map(function() {
                     return this.value;
                 }).get();
-            console.log(selectedAttributes);
             var graph = {'vertices':APP.table, 'edges':[], 'norms':{}, 'attrs': selectedAttributes};
             // Compute zscore norms for each attribute:
             for (var attr of graph.attrs)
@@ -143,9 +141,6 @@ APP.plotComplete = async function () {
     }
 }
 APP.plotComplete();
-/*$.post("test/test.html", "Hello").done(json => {
-    console.log(json);
-});*/
 $(document).ready(function() {
     $("#add-article-btn").on("click", event => {
         var url = prompt("Enter url", "");

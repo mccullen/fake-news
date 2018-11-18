@@ -12,7 +12,8 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <!-- d3 -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
 
@@ -27,46 +28,52 @@
 <body>
     <div id="container">
         <h2 id="vis-title">Fake News Visualization</h2>
-        <p id="details"></p>
-
-        <div class="attribute-selection">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="QuoteFrequency" id="quote-freq-check" checked>
-                <label class="form-check-label" for="defaultCheck1">
-                    Quote Frequency
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="EmotionalLanguage" id="emotional-lang-check" checked>
-                <label class="form-check-label" for="defaultCheck1">
-                    Emotional Language Frequency
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="AuthorTrustworthiness" id="author-trust-check" checked>
-                <label class="form-check-label" for="defaultCheck1">
-                    Author Trustworthiness
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="UpdatedDate" id="updated-date-check" checked>
-                <label class="form-check-label" for="defaultCheck1">
-                    Updated Date
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="AdvertisementCount" id="advertisement-count-check" checked>
-                <label class="form-check-label" for="defaultCheck1">
-                    Advertisement Count
-                </label>
-            </div>
-        </div>
-
         <svg width="800" height="600" style="border:1px solid grey">
         </svg>
+
         <hr>
-        <button id="add-article-btn">Add Article</button>
-        <table class="display" id="raw-data"></table>
+
+        <div class="lower-pane">
+            <button class="btn btn-primary" type="button" 
+                data-toggle="collapse" data-target="#attribute-collapse" 
+                aria-expanded="false" aria-controls="attribute-collapse">Attribute Selection</button>
+            <div id="attribute-collapse" class="attribute-selection collapse">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="QuoteFrequency" id="quote-freq-check" checked>
+                    <label class="form-check-label" for="defaultCheck1">
+                        Quote Frequency
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="EmotionalLanguage" id="emotional-lang-check" checked>
+                    <label class="form-check-label" for="defaultCheck1">
+                        Emotional Language Frequency
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="AuthorTrustworthiness" id="author-trust-check" checked>
+                    <label class="form-check-label" for="defaultCheck1">
+                        Author Trustworthiness
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="UpdatedDate" id="updated-date-check" checked>
+                    <label class="form-check-label" for="defaultCheck1">
+                        Updated Date
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="AdvertisementCount" id="advertisement-count-check" checked>
+                    <label class="form-check-label" for="defaultCheck1">
+                        Advertisement Count
+                    </label>
+                </div>
+            </div>
+            <br>
+
+            <button id="add-article-btn">Add Article</button>
+            <table class="display" id="raw-data"></table>
+        </div>
     </div>
 </body>
 </html>
