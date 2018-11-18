@@ -6,3 +6,4 @@ Start Server: python -m http.server
 - Use weka to show statistics, association rules, etc. on the side of the visualization
 - Add ability to select attributes to consider.
 - Remove points, zoom in/out
+- Add filters collapse
