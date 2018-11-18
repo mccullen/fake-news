@@ -22,3 +22,9 @@ svg {
 .lower-pane {
     text-align: left;
 }
+
+.my-collapse {
+    border: 1px solid grey;
+    padding: 5px;
+    margin: 5px;
+}
