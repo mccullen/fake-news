@@ -5,48 +5,51 @@ APP.completeFile = "fake-data.csv";
 APP.plotComplete = async function () {
     //APP.loadTable().then(plot);
     APP.table = APP.table || await d3.csv(APP.completeFile);
+    console.log(APP.table);
     plot();
 
     function plot() {
-        $(document).ready(function() {
-            $("#raw-data").DataTable({
-                data: APP.table,
-                columns: [
-                    { 
-                        data: "Author",
-                        title: "Author"
-                    },
-                    { 
-                        data: "URL",
-                        title: "URL"
-                    },
-                    { 
-                        data: "QuoteFrequency",
-                        title: "Quote Frequency"
-                    },
-                    { 
-                        data: "EmotionalLanguage",
-                        title: "Emotional Language Frequency"
-                    },
-                    { 
-                        data: "AuthorTrustworthiness",
-                        title: "Author Trustworthiness"
-                    },
-                    { 
-                        data: "UpdatedDate",
-                        title: "Updated Date"
-                    },
-                    { 
-                        data: "AdvertisementCount",
-                        title: "Advertisement Count"
-                    },
-                    { 
-                        data: "Title",
-                        title: "Title"
-                    }
-                ]
+        if (!APP.datatable) {
+            $(document).ready(function() {
+                APP.datatable = $("#raw-data").DataTable({
+                    data: APP.table,
+                    columns: [
+                        { 
+                            data: "Author",
+                            title: "Author"
+                        },
+                        { 
+                            data: "URL",
+                            title: "URL"
+                        },
+                        { 
+                            data: "QuoteFrequency",
+                            title: "Quote Frequency"
+                        },
+                        { 
+                            data: "EmotionalLanguage",
+                            title: "Emotional Language Frequency"
+                        },
+                        { 
+                            data: "AuthorTrustworthiness",
+                            title: "Author Trustworthiness"
+                        },
+                        { 
+                            data: "UpdatedDate",
+                            title: "Updated Date"
+                        },
+                        { 
+                            data: "AdvertisementCount",
+                            title: "Advertisement Count"
+                        },
+                        { 
+                            data: "Title",
+                            title: "Title"
+                        }
+                    ]
+                });
             });
-        });
+        }
 
 
         var graph = TableToGraph();  // See docs below about graph data structure.
@@ -88,13 +91,13 @@ APP.plotComplete = async function () {
                     });
 
 
-        // Make text labels for dots:
-        d3.select("svg").selectAll("text")
-            .data(graph.vertices)
-                        .attr("x", node => node.x)
-                .attr("y", node => node.y)
-                .text(node => node.URL)
-            .enter().append("text");
+            // Make text labels for dots:
+            d3.select("svg").selectAll("text")
+                .data(graph.vertices)
+                    .attr("x", node => node.x)
+                    .attr("y", node => node.y)
+                    .text(node => node.URL)
+                .enter().append("text");
         }
 
 
@@ -150,8 +153,26 @@ $(document).ready(function() {
         var author = prompt("Enter author", "");
         if (url) {
             $.post("", {url: url, author: author}).done(jsonResponse => {
-                console.log(jsonResponse);
+                article = {
+                    Title: "title",
+                    Author: "Author",
+                    AuthorTrustworthiness: "AT",
+                    Description: "Desc",
+                    EmotionalLanguage: 100,
+                    QuoteFrequency: 4.5,
+                    Time: 3,
+                    AdvertisementCount: 3,
+                    URL: "TEST",
+                    UpdatedDate: "500000"
+                };
+                APP.addArticle(article);
             });
         }
     });
 });
+
+APP.addArticle = function (article) {
+    APP.table.push(article);
+    APP.datatable.row.add(article).draw();
+    APP.plotComplete();
+};
