@@ -2,11 +2,21 @@ Start Server: python -m http.server
     - localhost:8000
 
 
+TODO:
 - Add processing for url using beautiful soup to classify articles during presentation
 - Collapse: Use weka to show statistics, association rules, etc. on the side of the visualization
 - Add ability to select attributes to consider.
 - Remove points, zoom in/out
 - Add filters collapse
+- In report, mention bad-data in data-cleaning, etc.
 
 
-Title,Text,Description,Author,URL
+input: Title,Text,Description,Author,URL,AdvertisementCount,UpdatedDate
+output: Title,Text,Description,Author,URL,AdvertisementCount,PotentialFake(0=not trustworthy, 0.5=unknown, 1=trustworthy),NumberAuthor,TitleLength,TextLength,FullTextLength,CapitalWordTitle,NumberOfQuotes,TotalSentiment,EmotionalLanguage,UpdatedDate
+ - No AuthorTrustworthiness
+
+git add -A # Add all files
+git commit -m "My commit message"
+git push
+
+git pull
