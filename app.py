@@ -5,7 +5,7 @@ from http.server import BaseHTTPRequestHandler, SimpleHTTPRequestHandler
 import cgi
 import json
 from urllib.parse import urlparse, parse_qs
-import urllib.request
+#import urllib.request
 
 PORT = 8000
 
@@ -32,9 +32,9 @@ class MyHandler(SimpleHTTPRequestHandler):
         print(self.author)
 
     def __respond(self):
-        with urllib.request.urlopen(self.url) as response:
-            html = response.read()
-            print(html)
+        #with urllib.request.urlopen(self.url) as response:
+            #html = response.read()
+            #print(html)
         self.json_response = {"hello": self.url}
         self.send_response(200)
         self.send_header('Content-Type', 'application/json')
