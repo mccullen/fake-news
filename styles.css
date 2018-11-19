@@ -1,5 +1,6 @@
 .highlight {
-    fill: yellow;
+    /*fill: yellow;*/
+    opacity: 0.5;
 }
 
 #vis-title {
@@ -27,4 +28,16 @@ svg {
     border: 1px solid grey;
     padding: 5px;
     margin: 5px;
+}
+
+.left {
+    text-align: left;
+}
+
+.small {
+    font: italic 10px sans-serif;
+}
+
+.points {
+    cursor: pointer;
 }

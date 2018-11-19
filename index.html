@@ -28,6 +28,34 @@
 <body>
     <div id="container">
         <h2 id="vis-title">Fake News Visualization</h2>
+
+        <!-- Modal -->
+        <div class="modal fade left" id="details-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="details-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="details-text">Text</label>
+                        <textarea readonly class="form-control" id="details-text" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="details-ad-count">Advertisement Count</label>
+                        <p class="form-control" id="details-ad-count"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
         <svg width="800" height="600" style="border:1px solid grey">
         </svg>
 

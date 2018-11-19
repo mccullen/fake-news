@@ -117,7 +117,7 @@ APP.plotComplete = async function () {
                     .attr("cx", node => node.x)
                     .attr("cy", node => node.y)
                 .enter().append("circle")
-                    //.attr("r", d => scale(d.Born))
+                    .attr("class", "points")
                     .attr("r", d => textLengthScale(d.FullTextLength))
                     .attr("fill", function (d, i) {
                         var result = APP.unknownFill;
@@ -131,16 +131,21 @@ APP.plotComplete = async function () {
                     .on("mouseover", function (d, i) {
                         d3.select(this).classed("highlight", true);
                         //d3.select("#details").html("Name: " + d.Name + ", Shoe Size: " + d.Shoe);
-                        tooltip.style('opacity', .9)
-                        tooltip.html('<p>' + "test" + '</p>' );
+                        tooltip.style('opacity', .9);
+                        var author = d.Author;
+                        tooltip.html('<p>' + author + '</p>' );
                     })
                     .on("mouseout", function (d, i) {
                         d3.select(this).classed("highlight", false);
-                        //tooltip.style('opacity', 0);
+                        tooltip.style('opacity', 0);
                     })
                     .on("click", (d, i) => {
+
                         console.log("clicked");
-                        // todo: display content in modal
+                        $("#details-title").text(d.Title);
+                        $("#details-text").text(d.Text);
+                        $("#details-ad-count").text(d.AdvertisementCount);
+                        $("#details-modal").modal("show");
                     })
                     .on("mousemove", function (d, i) {
                         tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px").style("color","blue");
@@ -151,6 +156,7 @@ APP.plotComplete = async function () {
                 .data(graph.vertices)
                     .attr("x", node => node.x)
                     .attr("y", node => node.y)
+                    .attr("class", "small")
                     .text(node => node.URL)
                 .enter().append("text");
         }
