@@ -29,11 +29,11 @@ class MyHandler(SimpleHTTPRequestHandler):
         post_data = str(self.rfile.read(content_length).decode("utf-8"))
         parsed = parse_qs(post_data)
         print(post_data)
-        self.title = parsed["title"][0]
-        self.text = parsed["text"][0]
-        self.description = parsed["description"][0]
-        self.author = parsed["author"][0]
-        self.url = parsed["url"][0]
+        self.title = parsed["title"][0].strip()
+        self.text = parsed["text"][0].strip()
+        self.description = parsed["description"][0].strip()
+        self.author = parsed["author"][0].strip()
+        self.url = parsed["url"][0].strip()
         self.adCount = int(parsed["adCount"][0])
         self.updatedDate = int(parsed["updateDate"][0])
         self.persist = bool(parsed["persist"][0])
