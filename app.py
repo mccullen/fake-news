@@ -49,14 +49,11 @@ class MyHandler(SimpleHTTPRequestHandler):
         self.wfile.write(json.dumps(self.json_response).encode())
     
     def __persist(self):
-#Title,Text,Description,Author,URL,AdvertisementCount,PotentialFake,NumberAuthor,TitleLength,TextLength,FullTextLength,CapitalWordTitle,NumberOfQuotes,TotalSentiment,EmotionalLanguage,UpdatedDate
+#Title,Text,Description,Author,URL,AdvertisementCount,UpdatedDate,PotentialFake,NumberAuthor,TitleLength,TextLength,FullTextLength,CapitalWordTitle,NumberOfQuotes,TotalSentiment,EmotionalLanguage
         with open('input.csv', mode='a', newline="") as input_file:
             #Title,Text,Description,Author,URL,AdvertisementCount,UpdatedDate
             input_writer = csv.writer(input_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             input_writer.writerow([self.title, self.text, self.description, self.author, self.url, self.adCount, self.updatedDate])
-        with open('fake-data.csv', mode='a', newline="") as input_file:
-            input_writer = csv.writer(input_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            input_writer.writerow([self.title, self.text, self.description, self.author, self.url, self.adCount, self.updatedDate, ])
         
 
 
