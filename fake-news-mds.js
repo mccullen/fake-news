@@ -142,27 +142,45 @@ APP.plotComplete = async function () {
 }
 APP.plotComplete();
 $(document).ready(function() {
-    $("#add-article-btn").on("click", event => {
-        /*
-        var url = prompt("Enter url", "");
-        var author = prompt("Enter author", "");
-        if (url) {
-            $.post("", {url: url, author: author}).done(jsonResponse => {
-                article = {
-                    Title: "title",
-                    Author: "Author",
-                    AuthorTrustworthiness: "AT",
-                    Description: "Desc",
-                    EmotionalLanguage: 100,
-                    QuoteFrequency: 4.5,
-                    Time: 3,
-                    AdvertisementCount: 3,
-                    URL: "TEST",
-                    UpdatedDate: "500000"
-                };
-                APP.addArticle(article);
-            });
-        }*/
+    $("#submit-article-btn").on("click", event => {
+        var title = $("#article-title").val();
+        var text = $("#article-text").val();
+        var description = $("#article-description").val();
+        var author = $("#article-author").val();
+        var url = $("#article-url").val();
+        var adCount = $("#article-ad-count").val();
+        var updateDate = new Date($("#article-update-date").val()).getTime();
+        var persist = $("#article-persist").prop("checked");
+        var article = {
+            title: title || " ",
+            text: text || " ",
+            description: description || " ",
+            author: author || " ",
+            url: url || " ",
+            adCount: adCount || 0,
+            updateDate: updateDate || " ",
+            persist: persist || false
+        };
+        console.log(article);
+        $("#add-article-modal").modal("hide");
+        $.post("", article).done(jsonResponse => {
+            console.log(jsonResponse);
+            /*
+            article = {
+                Title: "title",
+                Author: "Author",
+                AuthorTrustworthiness: "AT",
+                Description: "Desc",
+                EmotionalLanguage: 100,
+                QuoteFrequency: 4.5,
+                Time: 3,
+                AdvertisementCount: 3,
+                URL: "TEST",
+                UpdatedDate: "500000"
+            };
+            APP.addArticle(article);
+            */
+        });
     });
 
     $(".attribute-selection input").on("click", event => {
