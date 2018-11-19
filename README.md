@@ -9,10 +9,11 @@ TODO:
 - Remove points, zoom in/out
 - Add filters collapse
 - In report, mention bad-data in data-cleaning, etc.
+- Are you assuming that the data will have ground truth (fakeness measure) associated with it?  How?  How will you measure emotional content, etc?
 
 
 input: Title,Text,Description,Author,URL,AdvertisementCount,UpdatedDate
-output: Title,Text,Description,Author,URL,AdvertisementCount,PotentialFake(0=not trustworthy, 0.5=unknown, 1=trustworthy),NumberAuthor,TitleLength,TextLength,FullTextLength,CapitalWordTitle,NumberOfQuotes,TotalSentiment,EmotionalLanguage,UpdatedDate
+output: Title,Text,Description,Author,URL,AdvertisementCount,UpdatedData,PotentialFake(0=not trustworthy, 0.5=unknown, 1=trustworthy),NumberAuthor,TitleLength,TextLength,FullTextLength,CapitalWordTitle,NumberOfQuotes,TotalSentiment,EmotionalLanguage
  - No AuthorTrustworthiness
 
 git add -A # Add all files
