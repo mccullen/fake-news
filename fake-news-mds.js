@@ -11,6 +11,7 @@ APP.plotComplete = async function () {
     function plot() {
         if (!APP.datatable) {
             $(document).ready(function() {
+//Title,Text,Description,Author,URL,AdvertisementCount,UpdatedDate,PotentialFake,NumberAuthor,TitleLength,TextLength,FullTextLength,CapitalWordTitle,NumberOfQuotes,TotalSentiment,EmotionalLanguage
                 APP.datatable = $("#raw-data").DataTable({
                     data: APP.table,
                     columns: [
@@ -23,7 +24,7 @@ APP.plotComplete = async function () {
                             title: "URL"
                         },
                         { 
-                            data: "QuoteFrequency",
+                            data: "NumberOfQuotes",
                             title: "Quote Frequency"
                         },
                         { 
@@ -31,8 +32,8 @@ APP.plotComplete = async function () {
                             title: "Emotional Language Frequency"
                         },
                         { 
-                            data: "AuthorTrustworthiness",
-                            title: "Author Trustworthiness"
+                            data: "NumberAuthor",
+                            title: "Number of Authors"
                         },
                         { 
                             data: "UpdatedDate",
@@ -58,7 +59,7 @@ APP.plotComplete = async function () {
         // Set up the D3 Force layout.
         // Simulation will compute 2D locations of vertices as graph.vertices[i].x and .y
         var simulation = d3.forceSimulation(graph.vertices)
-            .force("spring", d3.forceLink(graph.edges).distance(edge => 10*(edge.distance+30))
+            .force("spring", d3.forceLink(graph.edges).distance(edge => 5*(edge.distance+30))
                 // Set various useful properties of the forceLink here...
                 // Hint: give .distance() an appropriate function.
 

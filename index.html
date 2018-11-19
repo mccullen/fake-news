@@ -34,27 +34,31 @@
         <hr>
 
         <div class="lower-pane">
+            <!-- Attribute Selection -->
+            <!--
+Title,Text,Description,Author,URL,AdvertisementCount,UpdatedDate,PotentialFake,NumberAuthor,TitleLength,TextLength,FullTextLength,CapitalWordTitle,NumberOfQuotes,TotalSentiment,EmotionalLanguage
+            -->
             <div class="my-collapse">
                 <button class="btn btn-link" type="button" 
                     data-toggle="collapse" data-target="#attribute-collapse" 
                     aria-expanded="false" aria-controls="attribute-collapse">Attribute Selection</button>
                 <div id="attribute-collapse" class="attribute-selection collapse">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="QuoteFrequency" id="quote-freq-check" checked>
+                        <input class="form-check-input" type="checkbox" value="NumberOfQuotes" id="quote-freq-check" checked>
                         <label class="form-check-label" for="defaultCheck1">
-                            Quote Frequency
+                            Number of Quotes
                         </label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="EmotionalLanguage" id="emotional-lang-check" checked>
                         <label class="form-check-label" for="defaultCheck1">
-                            Emotional Language Frequency
+                            Emotional Language
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="AuthorTrustworthiness" id="author-trust-check" checked>
+                        <input class="form-check-input" type="checkbox" value="NumberAuthor" id="author-trust-check" checked>
                         <label class="form-check-label" for="defaultCheck1">
-                            Author Trustworthiness
+                            Number Of Authors
                         </label>
                     </div>
                     <div class="form-check">
