@@ -6,6 +6,7 @@ import cgi
 import json
 from urllib.parse import urlparse, parse_qs
 import csv
+import InputFileAnalyzer as m
 #import urllib.request
 
 PORT = 8000
@@ -18,9 +19,9 @@ class MyHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         self.__set_post_data()
+        self.__respond()
         if self.persist == True:
             self.__persist()
-        self.__respond()
         return
 
     def __set_post_data(self):
@@ -34,26 +35,52 @@ class MyHandler(SimpleHTTPRequestHandler):
         self.description = parsed["description"][0].strip()
         self.author = parsed["author"][0].strip()
         self.url = parsed["url"][0].strip()
-        self.adCount = int(parsed["adCount"][0])
-        self.updatedDate = int(parsed["updateDate"][0])
-        self.persist = bool(parsed["persist"][0])
+        self.ad_count = int(parsed["adCount"][0])
+        self.updated_date = int(parsed["updateDate"][0])
+        self.persist = True
+        if parsed["persist"][0] == "false":
+            self.persist = False
         print(self.persist)
         print(self.url)
         print(self.author)
 
     def __respond(self):
-        self.json_response = {"hello": self.url}
+        self.json_response = m.ExtractingNumericFeatures({
+            "title": self.title,
+            "text": self.text,
+            "description": self.description,
+            "author": self.author,
+            "url": self.url,
+            "ad_count": self.ad_count,
+            "updated_date": self.updated_date
+        })
         self.send_response(200)
         self.send_header('Content-Type', 'application/json')
         self.end_headers()
         self.wfile.write(json.dumps(self.json_response).encode())
     
     def __persist(self):
-#Title,Text,Description,Author,URL,AdvertisementCount,UpdatedDate,PotentialFake,NumberAuthor,TitleLength,TextLength,FullTextLength,CapitalWordTitle,NumberOfQuotes,TotalSentiment,EmotionalLanguage
-        with open('input.csv', mode='a', newline="") as input_file:
-            #Title,Text,Description,Author,URL,AdvertisementCount,UpdatedDate
+        print(self.json_response)
+        with open('Fake-news-originial.csv', mode='a', newline="") as input_file:
             input_writer = csv.writer(input_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            input_writer.writerow([self.title, self.text, self.description, self.author, self.url, self.adCount, self.updatedDate])
+            input_writer.writerow([
+                self.json_response["title"],
+                self.json_response["text"],
+                self.json_response["description"],
+                self.json_response["author"],
+                self.json_response["url"],
+                self.json_response["ad_count"],
+                self.json_response["updated_date"],
+                self.json_response["PotentialFake"],
+                self.json_response["TitleLength"],
+                self.json_response["FullTextLength"],
+                self.json_response["TextLength"],
+                self.json_response["CapitalWordTitle"],
+                self.json_response["NumberOfQuotes"],
+                self.json_response["Title_sentiment"],
+                self.json_response["Text_sentiment"],
+                self.json_response["Description_sentiment"]
+            ])
         
 
 
