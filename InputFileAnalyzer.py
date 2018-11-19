@@ -4,60 +4,73 @@ Created on Mon Nov 19 10:52:25 2018
 
 @author: Navid
 """
+def ExtractingNumericFeatures(Dict_Input):
+    
+ import pandas as pd
 
-import pandas as pd
-import numpy as np
-
-from tqdm import tqdm_notebook
-
-from textblob import TextBlob
+ from textblob import TextBlob
 
 # Importing the Excel Having the Claim Links List
 
-Excel_File_Claimed = pd.read_excel('Copy of Fake News List and Claim.xlsx','ClaimLinks')
-Excel_File_Fake1   = pd.read_excel('Copy of Fake News List and Claim.xlsx','FakeNewsList1')
-Excel_File_Fake2   = pd.read_excel('Copy of Fake News List and Claim.xlsx','FakeNewsList2')
+ Excel_File_Claimed = pd.read_excel('Copy of Fake News List and Claim.xlsx','ClaimLinks')
+ Excel_File_Fake1   = pd.read_excel('Copy of Fake News List and Claim.xlsx','FakeNewsList1')
+ Excel_File_Fake2   = pd.read_excel('Copy of Fake News List and Claim.xlsx','FakeNewsList2')
 
 # Importing the Input File
 
-input_user = pd.read_csv('input.csv')
+ #input_user = pd.read_csv('input.csv')
+ 
 
-Claimed_Links = [Excel_File_Claimed.Sites][0].tolist()
-Fake_List_1   = [Excel_File_Fake1.Name][0].tolist()
-Fake_List_2   = [Excel_File_Fake2.Name][0].tolist()
+ Claimed_Links = [Excel_File_Claimed.Sites][0].tolist()
+ Fake_List_1   = [Excel_File_Fake1.Name][0].tolist()
+ Fake_List_2   = [Excel_File_Fake2.Name][0].tolist()
 
 #Potential Fake
 
-if any([input_user.URL][0].tolist() in u for u in Claimed_Links):
+ if any(Dict_Input['url'] in u for u in Claimed_Links):
     PotentialFake = 0
-elif any([input_user.URL][0].tolist() in u for u in Fake_List_1) or any([input_user.URL][0].tolist() in u for u in Fake_List_2):
+ elif any(Dict_Input['url'] in u for u in Fake_List_1) or any(Dict_Input['url'] in u for u in Fake_List_2):
     PotentialFake = 1
-else:
+ else:
     PotentialFake = 0.5
 
 #Number of Authors
     
 #Title Length
-TitleLength = len(input_user.Title[0].split())
+ TitleLength    = len(Dict_Input['title'].split())
 #Text Length
-FullTextLength = len(input_user.Text[0].split())
+ FullTextLength = len(Dict_Input['text'].split())
 #Description Length
-TextLength  = len(input_user.Description[0].split())
+ TextLength     = len(Dict_Input['description'].split())
 #CapitalWordTitle
-if any(s.isupper() for s in input_user.Title[0].split()):
+ if any(s.isupper() for s in Dict_Input['title'].split()):
     CapitalWordTitle = 1
-else:
+ else:
     CapitalWordTitle = 0
 
 #NumberOfQuotes
-NumberOfQuotes = input_user.Text[0].count('@')
+ NumberOfQuotes = Dict_Input['text'].count('@')
 
 #Title Sentiment 
-Title_sentiment = TextBlob(input_user.Title[0]).sentiment.polarity
+ Title_sentiment = TextBlob(Dict_Input['title']).sentiment.polarity
 #Text Sentiment
-Text_sentiment = TextBlob(input_user.Text[0]).sentiment.polarity
+ Text_sentiment = TextBlob(Dict_Input['text']).sentiment.polarity
 #Description Sentiment 
-Description_sentiment = TextBlob(input_user.Description[0]).sentiment.polarity
+ Description_sentiment = TextBlob(Dict_Input['description']).sentiment.polarity
+ 
+ Dict_Input['PotentialFake'] = PotentialFake
+ Dict_Input['TitleLength']   = TitleLength
+ Dict_Input['FullTextLength'] = FullTextLength
+ Dict_Input['TextLength']    = TextLength
+ Dict_Input['CapitalWordTitle'] = CapitalWordTitle
+ Dict_Input['NumberOfQuotes'] = NumberOfQuotes
+ Dict_Input['Title_sentiment'] = Title_sentiment
+ Dict_Input['Text_sentiment'] = Text_sentiment
+ Dict_Input['Description_sentiment'] = Description_sentiment
+ 
+ return Dict_Input
+ 
+ 
 
 
 
