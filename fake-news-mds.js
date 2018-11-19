@@ -1,10 +1,40 @@
 var APP = APP || {};
 //APP.completeFile = "complete.csv";
 APP.completeFile = "fake-data.csv";
+APP.fakeFill = "red";
+APP.trustworthyFill = "green";
+APP.unknownFill = "blue";
 // Plot table.
 APP.plotComplete = async function () {
     //APP.loadTable().then(plot);
-    APP.table = APP.table || await d3.csv(APP.completeFile);
+    APP.table = APP.table || await getTable();
+
+    async function getTable() {
+        var p = new Promise(async function (resolve, reject){
+            var result = await d3.csv(APP.completeFile);
+            result = result.map(function(d) {
+                return {
+                    Title: d.Title,
+                    Author: d.Author,
+                    AdvertisementCount: Number(d.AdvertisementCount),
+                    CapitalWordTitle: Number(d.CapitalWordTitle),
+                    Description: d.Description,
+                    EmotionalLanguage: Number(d.EmotionalLanguage),
+                    FullTextLength: Number(d.FullTextLength),
+                    NumberAuthor: Number(d.NumberAuthor),
+                    NumberOfQuotes: Number(d.NumberOfQuotes),
+                    PotentialFake: Number(d.PotentialFake),
+                    Text: d.Text,
+                    TextLength: Number(d.TextLength),
+                    TotalSentiment: Number(d.TotalSentiment),
+                    URL: d.URL,
+                    UpdatedDate: Number(d.UpdatedDate)
+                };
+            });
+            resolve(result);
+        });
+        return p;
+    }
     console.log(APP.table);
     plot();
 
@@ -51,7 +81,7 @@ APP.plotComplete = async function () {
                 });
             });
         }
-
+        var tooltip = d3.select('body').append('div') .attr("class","tooltip").style("color", "blue");
 
         var graph = TableToGraph();  // See docs below about graph data structure.
         console.log(graph);  // See graph contents in browser console.
@@ -70,6 +100,16 @@ APP.plotComplete = async function () {
             .on("tick", ticked);
 
         //var scale = d3.scaleLinear().domain([250, 16000]).range([5, 20]);
+        var sentiments = APP.table.map(function(d) {
+            return Number(d.TotalSentiment);
+        });
+        var sentimentScale = d3.scaleLinear().domain([d3.min(sentiments), d3.max(sentiments)]).range([5, 20]);
+        var textLengths = APP.table.map(function(d) {
+            return Number(d.FullTextLength);
+        });
+        console.log(d3.min(textLengths));
+        console.log(d3.max(textLengths));
+        var textLengthScale = d3.scaleLinear().domain([d3.min(textLengths), d3.max(textLengths)]).range([5, 50]);
 
         function ticked() {
             d3.select("svg").selectAll("circle")
@@ -78,17 +118,32 @@ APP.plotComplete = async function () {
                     .attr("cy", node => node.y)
                 .enter().append("circle")
                     //.attr("r", d => scale(d.Born))
-                    .attr("r", 5)
+                    .attr("r", d => textLengthScale(d.FullTextLength))
+                    .attr("fill", function (d, i) {
+                        var result = APP.unknownFill;
+                        if (d.PotentialFake === 1) {
+                            result = APP.fakeFill;
+                        } else if (d.PotentialFake === 0) {
+                            result = APP.trustworthyFill;
+                        }
+                        return result;
+                    })
                     .on("mouseover", function (d, i) {
-                            d3.select(this).classed("highlight", true);
-                            //d3.select("#details").html("Name: " + d.Name + ", Shoe Size: " + d.Shoe);
+                        d3.select(this).classed("highlight", true);
+                        //d3.select("#details").html("Name: " + d.Name + ", Shoe Size: " + d.Shoe);
+                        tooltip.style('opacity', .9)
+                        tooltip.html('<p>' + "test" + '</p>' );
                     })
                     .on("mouseout", function (d, i) {
-                            d3.select(this).classed("highlight", false);
+                        d3.select(this).classed("highlight", false);
+                        //tooltip.style('opacity', 0);
                     })
                     .on("click", (d, i) => {
                         console.log("clicked");
                         // todo: display content in modal
+                    })
+                    .on("mousemove", function (d, i) {
+                        tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px").style("color","blue");
                     });
 
             // Make text labels for dots:
