@@ -143,6 +143,7 @@ APP.plotComplete = async function () {
 APP.plotComplete();
 $(document).ready(function() {
     $("#add-article-btn").on("click", event => {
+        /*
         var url = prompt("Enter url", "");
         var author = prompt("Enter author", "");
         if (url) {
@@ -161,7 +162,7 @@ $(document).ready(function() {
                 };
                 APP.addArticle(article);
             });
-        }
+        }*/
     });
 
     $(".attribute-selection input").on("click", event => {
