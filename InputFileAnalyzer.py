@@ -28,8 +28,10 @@ def ExtractingNumericFeatures(Dict_Input):
 #Potential Fake
  if 'www' in Dict_Input['url']:
             X = Dict_Input['url'].split('www.')[1]
- else:
+ elif '://' in Dict_Input['url']:
             X = Dict_Input['url'].split('://')[1]
+ else:
+            X = Dict_Input['url']
 
  if any(Dict_Input['url'] in u for u in Claimed_Links):
     PotentialFake = 0

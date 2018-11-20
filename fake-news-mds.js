@@ -233,7 +233,7 @@ $(document).ready(function() {
             author: author || " ",
             url: url || " ",
             adCount: adCount || 0,
-            updateDate: updateDate || " ",
+            updateDate: updateDate || 0,
             persist: persist || false
         };
         console.log(article);
@@ -260,7 +260,8 @@ $(document).ready(function() {
            jsonResponse.AdvertisementCount = jsonResponse.ad_count;
            jsonResponse.UpdatedDate = jsonResponse.updated_date;
            jsonResponse.URL = jsonResponse.url;
-           jsonResponse.EmotionalLanguage = 0;
+           jsonResponse.EmotionalLanguage = jsonResponse.EmotionalLanguage || 0;
+           jsonResponse.NumberAuthor = jsonResponse.NumberAuthor || 0;
            APP.addArticle(jsonResponse);
         });
     });
