@@ -26,10 +26,14 @@ def ExtractingNumericFeatures(Dict_Input):
  Fake_List_2   = [Excel_File_Fake2.Name][0].tolist()
 
 #Potential Fake
+ if 'www' in Dict_Input['url']:
+            X = Dict_Input['url'].split('www.')[1]
+ else:
+            X = Dict_Input['url'].split('://')[1]
 
  if any(Dict_Input['url'] in u for u in Claimed_Links):
     PotentialFake = 0
- elif any(Dict_Input['url'] in u for u in Fake_List_1) or any(Dict_Input['url'] in u for u in Fake_List_2):
+ elif any(X in u for u in Fake_List_1) or any(X in u for u in Fake_List_2):
     PotentialFake = 1
  else:
     PotentialFake = 0.5

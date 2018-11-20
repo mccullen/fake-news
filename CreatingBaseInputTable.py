@@ -54,9 +54,17 @@ for i in range(len(input_user)):
         descriptions.append(input_user.Description[i])
         urls.append(input_user.URL[i])
         authors.append(input_user.Author[i])
+        # Identifying the URL Type
+        # Type1 : has www.
+        # Type2 : does not have www.
+        if 'www' in input_user.URL[i]:
+            X = input_user.URL[i].split('www.')[1]
+        else:
+            X = input_user.URL[i].split('://')[1]
+            
         if any(input_user.URL[i] in u for u in Claimed_Links):
             PotentialFake.append(0)
-        elif any(input_user.URL[i] in u for u in Fake_List_1) or any(input_user.URL[i] in u for u in Fake_List_2):
+        elif any(X in u for u in Fake_List_1) or any(X in u for u in Fake_List_2):
             PotentialFake.append(1)
         else:
             PotentialFake.append(0.5)
@@ -94,7 +102,6 @@ for i in range(len(input_user)):
 with open('Fake-news-original.csv', mode='a', newline="") as input_file:
             #Title,Text,Description,Author,URL,AdvertisementCount,UpdatedDate
             input_writer = csv.writer(input_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            input_writer.writeheader()
             for row in range(0,64):
              input_writer.writerow([titles[row].encode(),texts[row].encode(),descriptions[row].encode(), authors[row], urls[row], ad_count[row], update_date[row]
              ,PotentialFake[row],NumberAuthor[row],TitleLength[row],FullTextLength[row],TextLength[row],CapitalWordTitle[row],NumberOfQuotes[row]
