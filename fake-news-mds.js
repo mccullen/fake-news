@@ -4,6 +4,8 @@ APP.completeFile = "Fake-news-original.csv";
 APP.fakeFill = "red";
 APP.trustworthyFill = "green";
 APP.unknownFill = "blue";
+//APP.distanceFactor = 50;
+//APP.translate = 0;
 APP.distanceFactor = 50;
 APP.translate = 0;
 // Plot table.
