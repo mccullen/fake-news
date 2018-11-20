@@ -1,6 +1,6 @@
 var APP = APP || {};
-//APP.completeFile = "complete.csv";
-APP.completeFile = "fake-data.csv";
+APP.completeFile = "Fake-news-original.csv";
+//APP.completeFile = "fake-data.csv";
 APP.fakeFill = "red";
 APP.trustworthyFill = "green";
 APP.unknownFill = "blue";
@@ -13,22 +13,27 @@ APP.plotComplete = async function () {
         var p = new Promise(async function (resolve, reject){
             var result = await d3.csv(APP.completeFile);
             result = result.map(function(d) {
+//Title,Text,Description,Author,URL,AdvertisementCount,UpdatedDate,PotentialFake,NumberAuthor,TitleLength,FullTextLength,TextLength,
+// CapitalWordTitle,NumberOfQuotes,Title_sentiment,Text_sentiment,Description_sentiment
                 return {
                     Title: d.Title,
                     Author: d.Author,
-                    AdvertisementCount: Number(d.AdvertisementCount),
-                    CapitalWordTitle: Number(d.CapitalWordTitle),
-                    Description: d.Description,
-                    EmotionalLanguage: Number(d.EmotionalLanguage),
-                    FullTextLength: Number(d.FullTextLength),
-                    NumberAuthor: Number(d.NumberAuthor),
-                    NumberOfQuotes: Number(d.NumberOfQuotes),
-                    PotentialFake: Number(d.PotentialFake),
                     Text: d.Text,
-                    TextLength: Number(d.TextLength),
-                    TotalSentiment: Number(d.TotalSentiment),
+                    Description: d.Description,
                     URL: d.URL,
-                    UpdatedDate: Number(d.UpdatedDate)
+                    AdvertisementCount: Number(d.AdvertisementCount),
+                    UpdatedDate: Number(d.UpdatedDate),
+                    PotentialFake: Number(d.PotentialFake),
+                    NumberAuthor: Number(d.NumberAuthor),
+                    TitleLength: Number(d.TitleLength),
+                    FullTextLength: Number(d.FullTextLength),
+                    TextLength: Number(d.TextLength),
+                    CapitalWordTitle: Number(d.CapitalWordTitle),
+                    NumberOfQuotes: Number(d.NumberOfQuotes),
+                    Title_sentiment: Number(d.Title_sentiment),
+                    Text_sentiment: Number(d.Text_sentiment),
+                    Description_sentiment: Number(d.Description_sentiment),
+                    EmotionalLanguage: Number(d.EmotionalLanguage || 0)
                 };
             });
             resolve(result);
@@ -118,7 +123,7 @@ APP.plotComplete = async function () {
                     .attr("cy", node => node.y)
                 .enter().append("circle")
                     .attr("class", "points")
-                    .attr("r", d => textLengthScale(d.FullTextLength))
+                    .attr("r", d => textLengthScale(d.FullTextLength || 0))
                     .attr("fill", function (d, i) {
                         var result = APP.unknownFill;
                         if (d.PotentialFake === 1) {
@@ -240,8 +245,15 @@ $(document).ready(function() {
                 URL: "TEST",
                 UpdatedDate: "500000"
             };
-            APP.addArticle(article);
             */
+           jsonResponse.Author = jsonResponse.author;
+           jsonResponse.Description = jsonResponse.description;
+           jsonResponse.Title = jsonResponse.title;
+           jsonResponse.AdvertisementCount = jsonResponse.ad_count;
+           jsonResponse.UpdatedDate = jsonResponse.updated_date;
+           jsonResponse.URL = jsonResponse.url;
+           jsonResponse.EmotionalLanguage = 0;
+           APP.addArticle(jsonResponse);
         });
     });
 

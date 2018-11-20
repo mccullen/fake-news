@@ -61,7 +61,7 @@ class MyHandler(SimpleHTTPRequestHandler):
     
     def __persist(self):
         print(self.json_response)
-        with open('Fake-news-originial.csv', mode='a', newline="") as input_file:
+        with open('Fake-news-original.csv', mode='a', newline="") as input_file:
             input_writer = csv.writer(input_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             input_writer.writerow([
                 self.json_response["title"],
