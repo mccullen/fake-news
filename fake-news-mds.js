@@ -4,7 +4,7 @@ APP.completeFile = "Fake-news-original.csv";
 APP.fakeFill = "red";
 APP.trustworthyFill = "green";
 APP.unknownFill = "blue";
-APP.distanceFactor = 5;
+APP.distanceFactor = 10;
 // Plot table.
 APP.plotComplete = async function () {
     APP.table = APP.table || await getTable();
@@ -146,7 +146,6 @@ APP.plotComplete = async function () {
                     })
                     .on("mouseover", function (d, i) {
                         d3.select(this).classed("highlight", true);
-                        //d3.select("#details").html("Name: " + d.Name + ", Shoe Size: " + d.Shoe);
                         tooltip.style('opacity', .9);
                         var author = d.Author;
                         var maxlen = 100;
@@ -166,14 +165,24 @@ APP.plotComplete = async function () {
                     })
                     .on("mouseout", function (d, i) {
                         d3.select(this).classed("highlight", false);
-                        tooltip.style('opacity', 0);
+                        tooltip.style('opacity', 0).style("top", "-100000000px");
                     })
                     .on("click", (d, i) => {
 
                         console.log("clicked");
-                        $("#details-title").text(d.Title);
-                        $("#details-text").text(d.Text);
                         $("#details-ad-count").text(d.AdvertisementCount);
+                        $("#details-author").text(d.Author);
+                        $("#details-description").text(d.Description);
+                        $("#details-description-sent").text(d.Description_sentiment);
+                        $("#details-el-freq").text(d.EmotionalLanguage);
+                        $("#details-full-text-len").text(d.FullTextLength);
+                        $("#details-n-quotes").text(d.NumberOfQuotes);
+                        $("#details-text").text(d.Text);
+                        $("#details-text-len").text(d.TextLength);
+                        $("#details-text-sent").text(d.Text_sentiment);
+                        $("#details-title").text(d.Title);
+                        $("#details-title-2").text(d.Title);
+                        $("#details-title-sent").text(d.Title_sentiment);
                         $("#details-modal").modal("show");
                     })
                     .on("mousemove", function (d, i) {
@@ -256,20 +265,6 @@ $(document).ready(function() {
         $("#add-article-modal").modal("hide");
         $.post("", article).done(jsonResponse => {
             console.log(jsonResponse);
-            /*
-            article = {
-                Title: "title",
-                Author: "Author",
-                AuthorTrustworthiness: "AT",
-                Description: "Desc",
-                EmotionalLanguage: 100,
-                QuoteFrequency: 4.5,
-                Time: 3,
-                AdvertisementCount: 3,
-                URL: "TEST",
-                UpdatedDate: "500000"
-            };
-            */
            jsonResponse.Author = jsonResponse.author;
            jsonResponse.Description = jsonResponse.description;
            jsonResponse.Title = jsonResponse.title;
