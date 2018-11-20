@@ -41,6 +41,10 @@ def ExtractingNumericFeatures(Dict_Input):
     PotentialFake = 0.5
 
 #Number of Authors
+ if Dict_Input['author'] == ' ':
+            NumberAuthor = 0
+ else:
+            NumberAuthor = len(Dict_Input['author'].split(','))
     
 #Title Length
  TitleLength    = len(Dict_Input['title'].split())
@@ -63,6 +67,8 @@ def ExtractingNumericFeatures(Dict_Input):
  Text_sentiment = TextBlob(Dict_Input['text']).sentiment.polarity
 #Description Sentiment 
  Description_sentiment = TextBlob(Dict_Input['description']).sentiment.polarity
+ # Emotional Language 
+ EmotionalLanguage = 0
  
  Dict_Input['PotentialFake'] = PotentialFake
  Dict_Input['TitleLength']   = TitleLength
@@ -73,6 +79,8 @@ def ExtractingNumericFeatures(Dict_Input):
  Dict_Input['Title_sentiment'] = Title_sentiment
  Dict_Input['Text_sentiment'] = Text_sentiment
  Dict_Input['Description_sentiment'] = Description_sentiment
+ Dict_Input['NumberAuthor'] = NumberAuthor
+ Dict_Input['EmotionalLanguage']= EmotionalLanguage
  
  return Dict_Input
  
