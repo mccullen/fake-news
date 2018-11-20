@@ -42,6 +42,10 @@ svg {
     cursor: pointer;
     opacity: 0.3;
 }
+
+.user-point {
+    opacity: 1;
+}
 /*
 body, html {
     width: 100%;

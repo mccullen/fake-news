@@ -130,7 +130,13 @@ APP.plotComplete = async function () {
                     .attr("cx", node => node.x)
                     .attr("cy", node => node.y)
                 .enter().append("circle")
-                    .attr("class", "points")
+                    .attr("class", function(d, i) {
+                        var classes = "points ";
+                        if (d.addedByUser) {
+                            classes += "user-point";
+                        }
+                        return classes;
+                    })
                     .attr("r", d => textLengthScale(d.FullTextLength || 0))
                     .attr("fill", function (d, i) {
                         var result = APP.unknownFill;
@@ -262,6 +268,7 @@ $(document).ready(function() {
            jsonResponse.URL = jsonResponse.url;
            jsonResponse.EmotionalLanguage = jsonResponse.EmotionalLanguage || 0;
            jsonResponse.NumberAuthor = jsonResponse.NumberAuthor || 0;
+           jsonResponse.addedByUser = true;
            APP.addArticle(jsonResponse);
         });
     });
