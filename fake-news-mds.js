@@ -7,25 +7,22 @@ APP.unknownFill = "blue";
 APP.distanceFactor = 5;
 // Plot table.
 APP.plotComplete = async function () {
-    //APP.loadTable().then(plot);
     APP.table = APP.table || await getTable();
 
     async function getTable() {
         var p = new Promise(async function (resolve, reject){
             var result = await d3.csv(APP.completeFile);
             result = result.map(function(d) {
-//Title,Text,Description,Author,URL,AdvertisementCount,UpdatedDate,PotentialFake,NumberAuthor,TitleLength,FullTextLength,TextLength,
-// CapitalWordTitle,NumberOfQuotes,Title_sentiment,Text_sentiment,Description_sentiment
                 return {
                     Title: d.Title,
                     Author: d.Author,
                     Text: d.Text,
                     Description: d.Description,
                     URL: d.URL,
-                    AdvertisementCount: Number(d.AdvertisementCount),
+                    AdvertisementCount: Number(d.AdvertisementCount || 0),
                     UpdatedDate: Number(d.UpdatedDate),
                     PotentialFake: Number(d.PotentialFake),
-                    NumberAuthor: Number(d.NumberAuthor),
+                    NumberAuthor: Number(d.NumberAuthor || 0),
                     TitleLength: Number(d.TitleLength),
                     FullTextLength: Number(d.FullTextLength),
                     TextLength: Number(d.TextLength),
@@ -47,7 +44,6 @@ APP.plotComplete = async function () {
     function plot() {
         if (!APP.datatable) {
             $(document).ready(function() {
-//Title,Text,Description,Author,URL,AdvertisementCount,UpdatedDate,PotentialFake,NumberAuthor,TitleLength,TextLength,FullTextLength,CapitalWordTitle,NumberOfQuotes,TotalSentiment,EmotionalLanguage
                 APP.datatable = $("#raw-data").DataTable({
                     data: APP.table,
                     columns: [
@@ -87,7 +83,8 @@ APP.plotComplete = async function () {
                 });
             });
         }
-        var tooltip = d3.select('body').append('div') .attr("class","tooltip").style("color", "blue");
+        var tooltip = d3.select('body').append('div') .attr("class","tooltip").style("color", "blue")
+            .style("background-color", "white").style("border", "1px solid black");
 
         var graph = TableToGraph();  // See docs below about graph data structure.
         console.log(graph);  // See graph contents in browser console.
@@ -152,7 +149,20 @@ APP.plotComplete = async function () {
                         //d3.select("#details").html("Name: " + d.Name + ", Shoe Size: " + d.Shoe);
                         tooltip.style('opacity', .9);
                         var author = d.Author;
-                        tooltip.html('<p>' + author + '</p>' );
+                        var maxlen = 100;
+                        tooltip.html(`
+                        <div><b>Advertisement Count:</b> ${d.AdvertisementCount}</div>
+                        <div><b>Author:</b> ${author}</div>
+                        <div><b>Description:</b> ${d.Description}</div>
+                        <div><b>Description sentiment:</b> ${d.Description_sentiment}</div>
+                        <div><b>Emotional Language Frequency:</b> ${d.EmotionalLanguage}</div>
+                        <div><b>Full Text Length:</b> ${d.FullTextLength}</div>
+                        <div><b>Number Of Quotes:</b> ${d.NumberOfQuotes}</div>
+                        <div><b>Text:</b> ${d.Text.substring(0, maxlen)}...</div>
+                        <div><b>Text sentiment:</b> ${d.Text_sentiment}</div>
+                        <div><b>Title:</b> ${d.Title}</div>
+                        <div><b>Title sentiment:</b> ${d.Title_sentiment}</div>
+                        `);
                     })
                     .on("mouseout", function (d, i) {
                         d3.select(this).classed("highlight", false);
