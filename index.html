@@ -114,9 +114,15 @@ Title,Text,Description,Author,URL,AdvertisementCount,UpdatedDate,PotentialFake,N
                     aria-expanded="false" aria-controls="attribute-collapse">Attribute Selection</button>
                 <div id="attribute-collapse" class="attribute-selection collapse">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="NumberOfQuotes" id="quote-freq-check" checked>
+                        <input class="form-check-input" type="checkbox" value="AdvertisementCount" id="advertisement-count-check" checked>
                         <label class="form-check-label" for="defaultCheck1">
-                            Number of Quotes
+                            Advertisement Count
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Description_sentiment" checked>
+                        <label class="form-check-label" for="defaultCheck1">
+                            Description Sentiment
                         </label>
                     </div>
                     <div class="form-check">
@@ -126,21 +132,33 @@ Title,Text,Description,Author,URL,AdvertisementCount,UpdatedDate,PotentialFake,N
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="NumberAuthor" id="author-trust-check" checked>
+                        <input class="form-check-input" type="checkbox" value="FullTextLength" checked>
                         <label class="form-check-label" for="defaultCheck1">
-                            Number Of Authors
+                            Full Text Length
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="NumberAuthor" checked>
+                        <label class="form-check-label" for="defaultCheck1">
+                            Number of Authors
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="NumberOfQuotes" id="quote-freq-check" checked>
+                        <label class="form-check-label" for="defaultCheck1">
+                            Number of Quotes
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="PotentialFake" checked>
+                        <label class="form-check-label" for="defaultCheck1">
+                            Trustworthy
                         </label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="UpdatedDate" id="updated-date-check" checked>
                         <label class="form-check-label" for="defaultCheck1">
                             Updated Date
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="AdvertisementCount" id="advertisement-count-check" checked>
-                        <label class="form-check-label" for="defaultCheck1">
-                            Advertisement Count
                         </label>
                     </div>
                 </div>

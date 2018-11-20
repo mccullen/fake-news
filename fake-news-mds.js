@@ -4,7 +4,8 @@ APP.completeFile = "Fake-news-original.csv";
 APP.fakeFill = "red";
 APP.trustworthyFill = "green";
 APP.unknownFill = "blue";
-APP.distanceFactor = 10;
+APP.distanceFactor = 50;
+APP.translate = 0;
 // Plot table.
 APP.plotComplete = async function () {
     APP.table = APP.table || await getTable();
@@ -92,13 +93,13 @@ APP.plotComplete = async function () {
         // Set up the D3 Force layout.
         // Simulation will compute 2D locations of vertices as graph.vertices[i].x and .y
         var simulation = d3.forceSimulation(graph.vertices)
-            .force("spring", d3.forceLink(graph.edges).distance(edge => APP.distanceFactor*(edge.distance+30))
+            .force("spring", d3.forceLink(graph.edges).distance(edge => APP.distanceFactor*(edge.distance + APP.translate))
                 // Set various useful properties of the forceLink here...
                 // Hint: give .distance() an appropriate function.
 
                 )
             // What other forces would be useful here?
-            .force("repel", d3.forceManyBody())
+            //.force("repel", d3.forceManyBody())
             .force("center", d3.forceCenter(400,300))
             .on("tick", ticked);
 
