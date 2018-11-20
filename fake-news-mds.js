@@ -4,6 +4,7 @@ APP.completeFile = "Fake-news-original.csv";
 APP.fakeFill = "red";
 APP.trustworthyFill = "green";
 APP.unknownFill = "blue";
+APP.distanceFactor = 5;
 // Plot table.
 APP.plotComplete = async function () {
     //APP.loadTable().then(plot);
@@ -94,7 +95,7 @@ APP.plotComplete = async function () {
         // Set up the D3 Force layout.
         // Simulation will compute 2D locations of vertices as graph.vertices[i].x and .y
         var simulation = d3.forceSimulation(graph.vertices)
-            .force("spring", d3.forceLink(graph.edges).distance(edge => 5*(edge.distance+30))
+            .force("spring", d3.forceLink(graph.edges).distance(edge => APP.distanceFactor*(edge.distance+30))
                 // Set various useful properties of the forceLink here...
                 // Hint: give .distance() an appropriate function.
 
@@ -116,6 +117,13 @@ APP.plotComplete = async function () {
         console.log(d3.max(textLengths));
         var textLengthScale = d3.scaleLinear().domain([d3.min(textLengths), d3.max(textLengths)]).range([5, 50]);
 
+        /*
+        var svg = d3.select("svg");
+        svg.attr("width", "100%").attr("height", "100%");
+        svg.call(d3.zoom().on("zoom", function () {
+            svg.attr("transform", d3.event.transform);
+        })).append("g");
+        */
         function ticked() {
             d3.select("svg").selectAll("circle")
                 .data(graph.vertices)
