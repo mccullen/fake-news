@@ -60,27 +60,30 @@ class MyHandler(SimpleHTTPRequestHandler):
         self.wfile.write(json.dumps(self.json_response).encode())
     
     def __persist(self):
-        print(self.json_response)
+        row = [
+            self.json_response["title"],
+            self.json_response["text"],
+            self.json_response["description"],
+            self.json_response["author"],
+            self.json_response["url"],
+            self.json_response["ad_count"],
+            self.json_response["updated_date"],
+            self.json_response["PotentialFake"],
+            self.json_response["TitleLength"],
+            self.json_response["FullTextLength"],
+            self.json_response["TextLength"],
+            self.json_response["CapitalWordTitle"],
+            self.json_response["NumberOfQuotes"],
+            self.json_response["Title_sentiment"],
+            self.json_response["Text_sentiment"],
+            self.json_response["Description_sentiment"]
+        ]
         with open('Fake-news-original.csv', mode='a', newline="") as input_file:
             input_writer = csv.writer(input_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            input_writer.writerow([
-                self.json_response["title"],
-                self.json_response["text"],
-                self.json_response["description"],
-                self.json_response["author"],
-                self.json_response["url"],
-                self.json_response["ad_count"],
-                self.json_response["updated_date"],
-                self.json_response["PotentialFake"],
-                self.json_response["TitleLength"],
-                self.json_response["FullTextLength"],
-                self.json_response["TextLength"],
-                self.json_response["CapitalWordTitle"],
-                self.json_response["NumberOfQuotes"],
-                self.json_response["Title_sentiment"],
-                self.json_response["Text_sentiment"],
-                self.json_response["Description_sentiment"]
-            ])
+            input_writer.writerow(row)
+        with open('Fake-news-originial-with-nonEnglish.csv', mode='a', newline="") as input_file:
+            input_writer = csv.writer(input_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            input_writer.writerow(row)
         
 
 
