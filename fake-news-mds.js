@@ -7,8 +7,10 @@ APP.trustworthyFill = "green";
 APP.unknownFill = "blue";
 //APP.distanceFactor = 50;
 //APP.translate = 0;
-APP.distanceFactor = 50;
+APP.distanceFactor = 20;
 APP.translate = 0;
+APP.textLengthMinRange = 5;
+APP.textLengthMaxRange = 20;
 // Plot table.
 APP.plotComplete = async function () {
     APP.table = APP.table || await getTable();
@@ -152,7 +154,7 @@ APP.plotComplete = async function () {
         });
         console.log(d3.min(textLengths));
         console.log(d3.max(textLengths));
-        var textLengthScale = d3.scaleLinear().domain([d3.min(textLengths), d3.max(textLengths)]).range([5, 50]);
+        var textLengthScale = d3.scaleLinear().domain([d3.min(textLengths), d3.max(textLengths)]).range([APP.textLengthMinRange, APP.textLengthMaxRange]);
 
         /*
         var svg = d3.select("svg");
