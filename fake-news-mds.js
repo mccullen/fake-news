@@ -1,5 +1,6 @@
 var APP = APP || {};
-APP.completeFile = "Fake-news-original.csv";
+//APP.completeFile = "Fake-news-original.csv";
+APP.completeFile = "Fake-news-original-with-nonEnglish.csv";
 //APP.completeFile = "fake-data.csv";
 APP.fakeFill = "red";
 APP.trustworthyFill = "green";
@@ -268,6 +269,7 @@ $(document).ready(function() {
         $("#add-article-modal").modal("hide");
         $.post("", article).done(jsonResponse => {
             console.log(jsonResponse);
+           jsonResponse.Text = jsonResponse.text;
            jsonResponse.Author = jsonResponse.author;
            jsonResponse.Description = jsonResponse.description;
            jsonResponse.Title = jsonResponse.title;
