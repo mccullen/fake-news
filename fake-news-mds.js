@@ -48,40 +48,76 @@ APP.plotComplete = async function () {
     function plot() {
         if (!APP.datatable) {
             $(document).ready(function() {
+                function textAreaRenderer (data, type, row) {
+                    var html = `
+                        <textarea readonly>${data}</textarea>
+                    `;
+                    return html;
+                }
                 APP.datatable = $("#raw-data").DataTable({
                     data: APP.table,
+                    dom: "Bfrtip",
+                    buttons: ["colvis"],
                     columns: [
                         { 
+                            data: "AdvertisementCount",
+                            title: "Advertisement Count"
+                        },
+                        { 
                             data: "Author",
-                            title: "Author"
+                            title: "Author",
+                            render: textAreaRenderer,
+                        },
+                        { 
+                            data: "Description",
+                            title: "Description",
+                            render: textAreaRenderer,
+                            visible: false
+                        },
+                        { 
+                            data: "Description_sentiment",
+                            title: "Description Sentiment",
+                            visible: false
+                        },
+                        { 
+                            data: "EmotionalLanguage",
+                            visible: false,
+                            title: "Emotional Language Frequency"
                         },
                         { 
                             data: "URL",
-                            title: "URL"
+                            title: "URL",
+                            render: function (data, type, row) {
+                                return `<a href="${data}">${data}</a>`;
+                            }
                         },
                         { 
                             data: "NumberOfQuotes",
                             title: "Quote Frequency"
                         },
                         { 
-                            data: "EmotionalLanguage",
-                            title: "Emotional Language Frequency"
-                        },
-                        { 
                             data: "NumberAuthor",
+                            visible: false,
                             title: "Number of Authors"
                         },
                         { 
                             data: "UpdatedDate",
+                            visible: false,
                             title: "Updated Date"
                         },
                         { 
-                            data: "AdvertisementCount",
-                            title: "Advertisement Count"
+                            data: "Text",
+                            title: "Text",
+                            render: textAreaRenderer
+                        },
+                        { 
+                            data: "Text_sentiment",
+                            title: "Text Sentiment"
                         },
                         { 
                             data: "Title",
-                            title: "Title"
+                            title: "Title",
+                            render: textAreaRenderer
                         }
                     ]
                 });
@@ -153,6 +189,10 @@ APP.plotComplete = async function () {
                         tooltip.style('opacity', .9);
                         var author = d.Author;
                         var maxlen = 100;
+                        var text = "";
+                        if (d.Text) {
+                            text = d.Text.substring(0, maxlen);
+                        }
                         tooltip.html(`
                         <div><b>Advertisement Count:</b> ${d.AdvertisementCount}</div>
                         <div><b>Author:</b> ${author}</div>
@@ -161,7 +201,7 @@ APP.plotComplete = async function () {
                         <div><b>Emotional Language Frequency:</b> ${d.EmotionalLanguage}</div>
                         <div><b>Full Text Length:</b> ${d.FullTextLength}</div>
                         <div><b>Number Of Quotes:</b> ${d.NumberOfQuotes}</div>
-                        <div><b>Text:</b> ${d.Text.substring(0, maxlen)}...</div>
+                        <div><b>Text:</b> ${text}...</div>
                         <div><b>Text sentiment:</b> ${d.Text_sentiment}</div>
                         <div><b>Title:</b> ${d.Title}</div>
                         <div><b>Title sentiment:</b> ${d.Title_sentiment}</div>
@@ -187,6 +227,9 @@ APP.plotComplete = async function () {
                         $("#details-title").text(d.Title);
                         $("#details-title-2").text(d.Title);
                         $("#details-title-sent").text(d.Title_sentiment);
+                        $("#details-url").text(d.URL);
+                        document.getElementById("details-url").href = d.URL;
+
                         $("#details-modal").modal("show");
                     })
                     .on("mousemove", function (d, i) {
