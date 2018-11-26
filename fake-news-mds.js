@@ -158,12 +158,14 @@ APP.plotComplete = async function () {
 
         var svg = d3.select("svg");
         //svg.attr("width", "100%").attr("height", "100%");
-        var zoomLayer = svg.append("g");
+        //var zoomLayer = svg.append("g");
+        var zoomLayer = svg.select("g");
         var zoomed = function() {
             console.log(d3.event.transform);
             zoomLayer.attr("transform", d3.event.transform);
           }
-        svg.call(d3.zoom().scaleExtent([1/2, 12]).on("zoom", zoomed));//.append("g");
+        //svg.call(d3.zoom().scaleExtent([1/2, 12]).on("zoom", zoomed));//.append("g");
+        svg.call(d3.zoom().on("zoom", zoomed));
         function ticked() {
             d3.select("g")
                 .selectAll("circle")
