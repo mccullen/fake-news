@@ -36,6 +36,7 @@ svg {
 
 .small {
     font: italic 10px sans-serif;
+    opacity: 0.8;
 }
 
 .points {
