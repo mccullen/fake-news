@@ -342,6 +342,14 @@ $(document).ready(function() {
     $(".attribute-selection input").on("click", event => {
         APP.plotComplete();
     });
+
+    $("#distance").val(APP.distanceFactor);
+    $(".parameter").on("change", function(event) {
+        console.log("param");
+        var distance = $("#distance").val();
+        APP.distanceFactor = distance;
+        APP.plotComplete();
+    });
 });
 
 

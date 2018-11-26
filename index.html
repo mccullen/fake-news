@@ -201,6 +201,20 @@
 
             <div class="my-collapse">
                 <button class="btn btn-link" type="button" 
+                    data-toggle="collapse" data-target="#param-collapse" 
+                    aria-expanded="false" aria-controls="param-collapse">Parameters</button>
+                <div id="param-collapse" class="collapse">
+                    <form>
+                        <div class="form-group">
+                            <label for="distance">Distance</label>
+                            <input type="range" min="0" max="100" class="form-control parameter" id="distance">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="my-collapse">
+                <button class="btn btn-link" type="button" 
                     data-toggle="collapse" data-target="#table-collapse" 
                     aria-expanded="false" aria-controls="table-collapse">Table</button>
                 <div id="table-collapse" class="collapse">
