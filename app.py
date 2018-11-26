@@ -69,6 +69,7 @@ class MyHandler(SimpleHTTPRequestHandler):
             self.json_response["ad_count"],
             self.json_response["updated_date"],
             self.json_response["PotentialFake"],
+            self.json_response["NumberAuthor"],
             self.json_response["TitleLength"],
             self.json_response["FullTextLength"],
             self.json_response["TextLength"],
@@ -76,12 +77,13 @@ class MyHandler(SimpleHTTPRequestHandler):
             self.json_response["NumberOfQuotes"],
             self.json_response["Title_sentiment"],
             self.json_response["Text_sentiment"],
-            self.json_response["Description_sentiment"]
+            self.json_response["Description_sentiment"],
+            self.json_response["EmotionalLanguage"]
         ]
         with open('Fake-news-original.csv', mode='a', newline="") as input_file:
             input_writer = csv.writer(input_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             input_writer.writerow(row)
-        with open('Fake-news-originial-with-nonEnglish.csv', mode='a', newline="") as input_file:
+        with open('Fake-news-original-with-nonEnglish.csv', mode='a', newline="") as input_file:
             input_writer = csv.writer(input_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             input_writer.writerow(row)
         
