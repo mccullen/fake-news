@@ -156,15 +156,17 @@ APP.plotComplete = async function () {
         console.log(d3.max(textLengths));
         var textLengthScale = d3.scaleLinear().domain([d3.min(textLengths), d3.max(textLengths)]).range([APP.textLengthMinRange, APP.textLengthMaxRange]);
 
-        /*
         var svg = d3.select("svg");
-        svg.attr("width", "100%").attr("height", "100%");
-        svg.call(d3.zoom().on("zoom", function () {
-            svg.attr("transform", d3.event.transform);
-        })).append("g");
-        */
+        //svg.attr("width", "100%").attr("height", "100%");
+        var zoomLayer = svg.append("g");
+        var zoomed = function() {
+            console.log(d3.event.transform);
+            zoomLayer.attr("transform", d3.event.transform);
+          }
+        svg.call(d3.zoom().scaleExtent([1/2, 12]).on("zoom", zoomed));//.append("g");
         function ticked() {
-            d3.select("svg").selectAll("circle")
+            d3.select("g")
+                .selectAll("circle")
                 .data(graph.vertices)
                     .attr("cx", node => node.x)
                     .attr("cy", node => node.y)
@@ -239,7 +241,7 @@ APP.plotComplete = async function () {
                     });
 
             // Make text labels for dots:
-            d3.select("svg").selectAll("text")
+            d3.select("g").selectAll("text")
                 .data(graph.vertices)
                     .attr("x", node => node.x)
                     .attr("y", node => node.y)
