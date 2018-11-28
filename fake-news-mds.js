@@ -84,6 +84,7 @@ APP.plotComplete = async function () {
                     columns: [
                         {
                             render: function(data, type, row) {
+                                    /*
                                 $("#table-check-"+ row.index).on("change", function(e) {
                                     console.log("HERE");
                                     var rowChecked = $(this).prop("checked");
@@ -93,7 +94,7 @@ APP.plotComplete = async function () {
                                     } else {
                                         row.checked = false;
                                     }
-                                });
+                                });*/
                                 var html;
                                 html = `<input class="table-check" id="table-check-${row.index}" type="checkbox">`;
                                 return html;
