@@ -37,6 +37,21 @@
 <body>
     <div id="container">
         <h2 id="vis-title">Fake News Visualization</h2>
+        <h5>By Team Поддельные (pronounced “Poddel'nyye novosti”)</h5>
+        <h5>Team Members: Jeff McCullen and Navid Mirmohammadsadeghi</h5>
+        <br>
+        <div>
+            <div class="color-label">
+                <svg><circle fill="red"></circle></svg> Fake News
+            </div>
+            <div class="color-label">
+                <svg><circle fill="blue"></circle></svg> Unknown
+            </div>
+            <div class="color-label">
+                <svg><circle fill="green"></circle></svg> Trustworthy
+            </div>
+        </div>
+        <p class="my-p">Size represents the length of the article. The label is the source URL.</p>
 
         <!-- Modal -->
         <div class="modal fade left" id="details-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -110,10 +125,11 @@
         </div>
 
         <div id="vis-wrapper">
-        <svg width="800" height="600" style="border:1px solid grey">
-            <g></g>
-        </svg>
+            <svg id="info-vis" width="800" height="600" style="border:1px solid grey">
+                <g></g>
+            </svg>
         </div>
+
 
         <hr>
 

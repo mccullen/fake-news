@@ -1,3 +1,7 @@
+#vis-wrapper {
+    clear: both;
+}
+
 circle.highlight {
     /*fill: yellow;*/
     opacity: 0.8;
@@ -47,19 +51,23 @@ svg {
 .user-point {
     opacity: 1;
 }
-/*
-body, html {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-  }
-  svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-#vis-wrapper {
-    width: 800;
-    height: 600;
+
+.color-label {
+    text-align: left;
+    display: inline-block;
 }
-*/
+
+.color-label svg {
+    width: 10px;
+    height: 10px;
+}
+
+.color-label circle {
+    r: 5px;
+    cx: 5px;
+    cy: 5px;
+}
+
+.my-p {
+    margin: 0;
+}

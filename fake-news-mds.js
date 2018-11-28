@@ -155,7 +155,7 @@ APP.plotComplete = async function () {
         });
         var textLengthScale = d3.scaleLinear().domain([d3.min(textLengths), d3.max(textLengths)]).range([APP.textLengthMinRange, APP.textLengthMaxRange]);
 
-        var svg = d3.select("svg");
+        var svg = d3.select("#info-vis");
         //svg.attr("width", "100%").attr("height", "100%");
         //var zoomLayer = svg.append("g");
         var zoomLayer = svg.select("g");
