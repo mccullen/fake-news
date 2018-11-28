@@ -259,7 +259,7 @@ APP.plotComplete = async function () {
                         <div><b>Full Text Length:</b> ${d.FullTextLength}</div>
                         <div><b>Number Of Quotes:</b> ${d.NumberOfQuotes}</div>
                         <div><b>Text:</b> ${text}...</div>
-                        <div><b>Text Length:</b> ${d.TextLength}...</div>
+                        <div><b>Text Length:</b> ${d.TextLength}</div>
                         <div><b>Text sentiment:</b> ${d.Text_sentiment}</div>
                         <div><b>Title:</b> ${d.Title}</div>
                         <div><b>Title Length:</b> ${d.TitleLength}</div>
