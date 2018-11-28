@@ -250,6 +250,7 @@ APP.plotComplete = async function () {
                         tooltip.html(`
                         <div><b>Advertisement Count:</b> ${d.AdvertisementCount}</div>
                         <div><b>Author:</b> ${author}</div>
+                        <div><b>Capital Word Title:</b> ${d.CapitalWordTitle}</div>
                         <div><b>Description:</b> ${d.Description}</div>
                         <div><b>Description sentiment:</b> ${d.Description_sentiment}</div>
                         <div><b>Emotional Language Frequency:</b> ${d.EmotionalLanguage}</div>
