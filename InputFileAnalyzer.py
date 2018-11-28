@@ -59,7 +59,7 @@ def ExtractingNumericFeatures(Dict_Input):
     CapitalWordTitle = 0
 
 #NumberOfQuotes
- NumberOfQuotes = Dict_Input['text'].count('@')
+ NumberOfQuotes = Dict_Input['text'].count('\"')
 
 #Title Sentiment 
  Title_sentiment = TextBlob(Dict_Input['title']).sentiment.polarity
@@ -68,7 +68,8 @@ def ExtractingNumericFeatures(Dict_Input):
 #Description Sentiment 
  Description_sentiment = TextBlob(Dict_Input['description']).sentiment.polarity
  # Emotional Language 
- EmotionalLanguage = 0
+ EmotionalLanguage = abs(Title_sentiment) + abs(Text_sentiment) + abs(Description_sentiment)
+
  
  Dict_Input['PotentialFake'] = PotentialFake
  Dict_Input['TitleLength']   = TitleLength

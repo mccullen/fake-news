@@ -50,6 +50,8 @@ svg {
 
 .user-point {
     opacity: 1;
+    /*stroke: black;
+    stroke-width: 5px;*/
 }
 
 .color-label {
