@@ -7,10 +7,11 @@ APP.trustworthyFill = "green";
 APP.unknownFill = "blue";
 //APP.distanceFactor = 50;
 //APP.translate = 0;
-APP.distanceFactor = 20;
+APP.distanceFactor = 25;
 APP.translate = 0;
 APP.textLengthMinRange = 5;
 APP.textLengthMaxRange = 20;
+APP.r = 1;
 // Plot table.
 APP.plotComplete = async function () {
     APP.table = APP.table || await getTable();
@@ -152,19 +153,20 @@ APP.plotComplete = async function () {
         var textLengths = APP.table.map(function(d) {
             return Number(d.FullTextLength);
         });
-        console.log(d3.min(textLengths));
-        console.log(d3.max(textLengths));
         var textLengthScale = d3.scaleLinear().domain([d3.min(textLengths), d3.max(textLengths)]).range([APP.textLengthMinRange, APP.textLengthMaxRange]);
 
-        /*
-        var svg = d3.select("svg");
-        svg.attr("width", "100%").attr("height", "100%");
-        svg.call(d3.zoom().on("zoom", function () {
-            svg.attr("transform", d3.event.transform);
-        })).append("g");
-        */
+        var svg = d3.select("#info-vis");
+        //svg.attr("width", "100%").attr("height", "100%");
+        //var zoomLayer = svg.append("g");
+        var zoomLayer = svg.select("g");
+        var zoomed = function() {
+            zoomLayer.attr("transform", d3.event.transform);
+          }
+        //svg.call(d3.zoom().scaleExtent([1/2, 12]).on("zoom", zoomed));//.append("g");
+        svg.call(d3.zoom().on("zoom", zoomed));
         function ticked() {
-            d3.select("svg").selectAll("circle")
+            d3.select("g")
+                .selectAll("circle")
                 .data(graph.vertices)
                     .attr("cx", node => node.x)
                     .attr("cy", node => node.y)
@@ -207,6 +209,7 @@ APP.plotComplete = async function () {
                         <div><b>Text sentiment:</b> ${d.Text_sentiment}</div>
                         <div><b>Title:</b> ${d.Title}</div>
                         <div><b>Title sentiment:</b> ${d.Title_sentiment}</div>
+                        <div><b>URL:</b> ${d.URL}</div>
                         `);
                     })
                     .on("mouseout", function (d, i) {
@@ -215,7 +218,6 @@ APP.plotComplete = async function () {
                     })
                     .on("click", (d, i) => {
 
-                        console.log("clicked");
                         $("#details-ad-count").text(d.AdvertisementCount);
                         $("#details-author").text(d.Author);
                         $("#details-description").text(d.Description);
@@ -239,13 +241,24 @@ APP.plotComplete = async function () {
                     });
 
             // Make text labels for dots:
-            d3.select("svg").selectAll("text")
-                .data(graph.vertices)
-                    .attr("x", node => node.x)
-                    .attr("y", node => node.y)
-                    .attr("class", "small")
-                    .text(node => node.URL)
-                .enter().append("text");
+            if ($("#show-url:checked").prop("checked")) {
+                d3.select("g").selectAll("text")
+                    .data(graph.vertices)
+                        .attr("x", node => node.x)
+                        .attr("y", node => node.y)
+                        .attr("class", "small")
+                        .text(function(node) {
+                            var text = "";
+                            var maxlen = 25;
+                            if (node.URL) {
+                                text = node.URL.substring(0, maxlen) + "...";
+                            }
+                            return text;
+                        })
+                    .enter().append("text");
+            } else {
+                $("text").remove();
+            }
         }
 
 
@@ -273,7 +286,7 @@ APP.plotComplete = async function () {
             APP.table.forEach( (src, isrc) =>
                 APP.table.forEach( (dst, idst) => {
                     if(isrc < idst)	 // no duplicate edges
-                        graph.edges.push( {'source': src, 'target': dst, 'distance': Distance(src,dst,graph.norms)} );
+                        graph.edges.push( {'source': src, 'target': dst, 'distance': Distance(src,dst,graph.norms, APP.r)} );
             }));
             return graph;
         }
@@ -281,11 +294,15 @@ APP.plotComplete = async function () {
         // Distance metric, computes normalized high-dimensional distance between 2 rows in the table.
         // r1, r2 = references to row (vertex) objects.
         // norms = the attribute zscore normalization factors.
-        function Distance(r1, r2, norms) {
-            return d3.sum(Object.keys(norms).map(attr =>
-                    Math.abs(r1[attr] - r2[attr]) / norms[attr] ));  // L1
+        function Distance(r1, r2, norms, r) {
+            r = r || 1;
+            console.log(r);
+            //return d3.sum(Object.keys(norms).map(attr =>
+            //        Math.abs(r1[attr] - r2[attr]) / norms[attr] ));  // L1
             //return Math.sqrt(d3.sum(Object.keys(norms).map(attr =>
             //		Math.pow((r1[attr] - r2[attr])/norms[attr], 2)))); // L2
+            return Math.pow(d3.sum(Object.keys(norms).map(attr => 
+                Math.abs(Math.pow((r1[attr] - r2[attr])/norms[attr], r)))), 1/r);
         }
     }
 }
@@ -329,6 +346,18 @@ $(document).ready(function() {
     });
 
     $(".attribute-selection input").on("click", event => {
+        APP.plotComplete();
+    });
+
+    $("#distance").val(APP.distanceFactor);
+    $("#r-value").val(APP.r);
+    $(".parameter").on("change", function(event) {
+        console.log("param");
+        var distance = $("#distance").val();
+        APP.distanceFactor = distance;
+
+        var r = $("#r-value").val();
+        APP.r = r;
         APP.plotComplete();
     });
 });

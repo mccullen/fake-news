@@ -37,6 +37,21 @@
 <body>
     <div id="container">
         <h2 id="vis-title">Fake News Visualization</h2>
+        <h5>By Team Поддельные (pronounced “Poddel'nyye novosti”)</h5>
+        <h5>Team Members: Jeff McCullen and Navid Mirmohammadsadeghi</h5>
+        <br>
+        <div>
+            <div class="color-label">
+                <svg><circle fill="red"></circle></svg>Fake News
+            </div>
+            <div class="color-label">
+                <svg><circle fill="blue"></circle></svg>Unknown
+            </div>
+            <div class="color-label">
+                <svg><circle fill="green"></circle></svg>Trustworthy
+            </div>
+        </div>
+        <p class="my-p">Size represents the length of the article. The label is the source URL.</p>
 
         <!-- Modal -->
         <div class="modal fade left" id="details-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -110,9 +125,11 @@
         </div>
 
         <div id="vis-wrapper">
-        <svg width="800" height="600" style="border:1px solid grey">
-        </svg>
+            <svg id="info-vis" width="800" height="600" style="border:1px solid grey">
+                <g></g>
+            </svg>
         </div>
+
 
         <hr>
 
@@ -200,71 +217,93 @@
 
             <div class="my-collapse">
                 <button class="btn btn-link" type="button" 
+                    data-toggle="collapse" data-target="#param-collapse" 
+                    aria-expanded="false" aria-controls="param-collapse">Parameters</button>
+                <div id="param-collapse" class="collapse">
+                    <form>
+                        <div class="form-group">
+                            <label for="distance">Distance</label>
+                            <input type="range" min="0" max="500" class="form-control parameter" id="distance">
+                        </div>
+                        <div class="form-group">
+                            <label for="distance">Minkowsky r value</label>
+                            <input min="1" type="number" class="form-control parameter" id="r-value">
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="parameter form-check-input" id="show-url" checked>
+                            <label class="form-check-label" for="article-persist">Show URL</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="my-collapse">
+                <button class="btn btn-link" type="button" 
                     data-toggle="collapse" data-target="#table-collapse" 
                     aria-expanded="false" aria-controls="table-collapse">Table</button>
+                <button data-toggle="modal" data-target="#add-article-modal" class="collapse-btn btn btn-success" id="add-article-btn">Add Article</button>
                 <div id="table-collapse" class="collapse">
                     <br>
-                    <button data-toggle="modal" data-target="#add-article-modal" class="btn btn-success" id="add-article-btn">Add Article</button><br><br>
                     <table class="display" id="raw-data"></table>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="add-article-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <h5 class="modal-title" id="add-article-modal-title">Add Article</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            </div>
-                            <div class="modal-body">
-                                <form>
-                                    <div class="form-group">
-                                        <label for="article-title">Title</label>
-                                        <input type="text" class="form-control" id="article-title" placeholder="Enter title">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="article-text">Text</label>
-                                        <textarea class="form-control" id="article-text" rows="3"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="article-description">Description</label>
-                                        <textarea class="form-control" id="article-description" rows="3"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="article-author">Author</label>
-                                        <input type="text" class="form-control" id="article-author" placeholder="Enter author">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="article-url">URL</label>
-                                        <input type="text" class="form-control" id="article-url" placeholder="Enter URL">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="article-ad-count">Advertisement Count</label>
-                                        <input type="number" name="advertisement-count" min="0"
-                                            class="form-control" id="article-ad-count" placeholder="Enter number of advertisements that appear on the page">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="article-update-date">Update Date</label>
-                                        <input type="date" class="form-control" 
-                                            id="article-update-date">
-                                    </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="article-persist">
-                                        <label class="form-check-label" for="article-persist">Persist</label>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="submit-article-btn">Submit</button>
-                            </div>
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="add-article-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="add-article-modal-title">Add Article</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                         </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="article-title">Title</label>
+                                    <input type="text" class="form-control" id="article-title" placeholder="Enter title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="article-text">Text</label>
+                                    <textarea class="form-control" id="article-text" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="article-description">Description</label>
+                                    <textarea class="form-control" id="article-description" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="article-author">Author</label>
+                                    <input type="text" class="form-control" id="article-author" placeholder="Enter author">
+                                </div>
+                                <div class="form-group">
+                                    <label for="article-url">URL</label>
+                                    <input type="text" class="form-control" id="article-url" placeholder="Enter URL">
+                                </div>
+                                <div class="form-group">
+                                    <label for="article-ad-count">Advertisement Count</label>
+                                    <input type="number" name="advertisement-count" min="0"
+                                        class="form-control" id="article-ad-count" placeholder="Enter number of advertisements that appear on the page">
+                                </div>
+                                <div class="form-group">
+                                    <label for="article-update-date">Update Date</label>
+                                    <input type="date" class="form-control" 
+                                        id="article-update-date">
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="article-persist">
+                                    <label class="form-check-label" for="article-persist">Persist</label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="submit-article-btn">Submit</button>
                         </div>
                     </div>
-                    <!-- /Modal -->
-
+                    </div>
                 </div>
+                <!-- /Modal -->
+
             </div>
         </div>
     </div>
