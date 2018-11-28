@@ -248,6 +248,8 @@ APP.plotComplete = async function () {
                             text = d.Text.substring(0, maxlen);
                         }
                         tooltip.html(`
+                        <div><b>URL:</b> ${d.URL}</div>
+                        <div><b>Updated Date:</b> ${d.UpdatedDate}</div>
                         <div><b>Advertisement Count:</b> ${d.AdvertisementCount}</div>
                         <div><b>Author:</b> ${author}</div>
                         <div><b>Capital Word Title:</b> ${d.CapitalWordTitle}</div>
@@ -257,10 +259,11 @@ APP.plotComplete = async function () {
                         <div><b>Full Text Length:</b> ${d.FullTextLength}</div>
                         <div><b>Number Of Quotes:</b> ${d.NumberOfQuotes}</div>
                         <div><b>Text:</b> ${text}...</div>
+                        <div><b>Text Length:</b> ${d.TextLength}...</div>
                         <div><b>Text sentiment:</b> ${d.Text_sentiment}</div>
                         <div><b>Title:</b> ${d.Title}</div>
+                        <div><b>Title Length:</b> ${d.TitleLength}</div>
                         <div><b>Title sentiment:</b> ${d.Title_sentiment}</div>
-                        <div><b>URL:</b> ${d.URL}</div>
                         `);
                     })
                     .on("mouseout", function (d, i) {
