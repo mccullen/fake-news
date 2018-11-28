@@ -68,7 +68,7 @@ def ExtractingNumericFeatures(Dict_Input):
 #Description Sentiment 
  Description_sentiment = TextBlob(Dict_Input['description']).sentiment.polarity
  # Emotional Language 
- EmotionalLanguage = abs(Title_sentiment) + abs(Text_sentiment) + abs(Description_sentiment)
+ EmotionalLanguage = (abs(Title_sentiment) + abs(Text_sentiment) + abs(Description_sentiment)) / 3
 
  
  Dict_Input['PotentialFake'] = PotentialFake
