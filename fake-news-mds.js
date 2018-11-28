@@ -240,20 +240,24 @@ APP.plotComplete = async function () {
                     });
 
             // Make text labels for dots:
-            d3.select("g").selectAll("text")
-                .data(graph.vertices)
-                    .attr("x", node => node.x)
-                    .attr("y", node => node.y)
-                    .attr("class", "small")
-                    .text(function(node) {
-                        var text = "";
-                        var maxlen = 25;
-                        if (node.URL) {
-                            text = node.URL.substring(0, maxlen) + "...";
-                        }
-                        return text;
-                    })
-                .enter().append("text");
+            if ($("#show-url:checked").prop("checked")) {
+                d3.select("g").selectAll("text")
+                    .data(graph.vertices)
+                        .attr("x", node => node.x)
+                        .attr("y", node => node.y)
+                        .attr("class", "small")
+                        .text(function(node) {
+                            var text = "";
+                            var maxlen = 25;
+                            if (node.URL) {
+                                text = node.URL.substring(0, maxlen) + "...";
+                            }
+                            return text;
+                        })
+                    .enter().append("text");
+            } else {
+                $("text").remove();
+            }
         }
 
 
