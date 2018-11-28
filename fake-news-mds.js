@@ -209,6 +209,7 @@ APP.plotComplete = async function () {
                         <div><b>Text sentiment:</b> ${d.Text_sentiment}</div>
                         <div><b>Title:</b> ${d.Title}</div>
                         <div><b>Title sentiment:</b> ${d.Title_sentiment}</div>
+                        <div><b>URL:</b> ${d.URL}</div>
                         `);
                     })
                     .on("mouseout", function (d, i) {
