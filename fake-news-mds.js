@@ -1,3 +1,4 @@
+jQuery.fn.on;
 var APP = APP || {};
 //APP.completeFile = "Fake-news-original.csv";
 APP.completeFile = "Fake-news-original-with-nonEnglish.csv";
@@ -57,19 +58,57 @@ APP.plotComplete = async function () {
                     `;
                     return html;
                 }
+                function largeTextAreaRenderer (data, type, row) {
+                    var html = `
+                        <textarea style="width:500px;" readonly>${data}</textarea>
+                    `;
+                    return html;
+                }
                 APP.datatable = $("#raw-data").DataTable({
                     data: APP.table,
                     dom: "Bfrtip",
                     buttons: ["colvis"],
+                    drawCallback: function(settings) {
+                        $(".table-check").on("change", function(e) {
+                            var index = this.getAttribute("id").substr(12);
+                            var elem = $(this);
+                            var rowChecked = $(this).prop("checked");
+                            var cir = $("#cir-" + index);
+                            if (rowChecked) {
+                                cir.addClass("user-point");
+                            } else {
+                                cir.removeClass("user-point");
+                            }
+                        });
+                    },
                     columns: [
+                        {
+                            render: function(data, type, row) {
+                                $("#table-check-"+ row.index).on("change", function(e) {
+                                    console.log("HERE");
+                                    var rowChecked = $(this).prop("checked");
+                                    $("#cir-" + row.index).toggleClass("user-point");
+                                    if (rowChecked) {
+                                        row.checked = true;
+                                    } else {
+                                        row.checked = false;
+                                    }
+                                });
+                                var html;
+                                html = `<input class="table-check" id="table-check-${row.index}" type="checkbox">`;
+                                return html;
+                            }
+                        },
                         { 
                             data: "AdvertisementCount",
-                            title: "Advertisement Count"
+                            title: "Advertisement Count",
+                            visible: false
                         },
                         { 
                             data: "Author",
                             title: "Author",
                             render: textAreaRenderer,
+                            visible: true
                         },
                         { 
                             data: "Description",
@@ -96,7 +135,8 @@ APP.plotComplete = async function () {
                         },
                         { 
                             data: "NumberOfQuotes",
-                            title: "Quote Frequency"
+                            title: "Quote Frequency",
+                            visible: false
                         },
                         { 
                             data: "NumberAuthor",
@@ -111,11 +151,13 @@ APP.plotComplete = async function () {
                         { 
                             data: "Text",
                             title: "Text",
-                            render: textAreaRenderer
+                            width: "25%",
+                            render: largeTextAreaRenderer
                         },
                         { 
                             data: "Text_sentiment",
-                            title: "Text Sentiment"
+                            title: "Text Sentiment",
+                            visible: false
                         },
                         { 
                             data: "Title",
@@ -124,6 +166,10 @@ APP.plotComplete = async function () {
                         }
                     ]
                 });
+                /*
+                $(".table-check").on("change", function(e) {
+                    console.log("here");
+                });*/
             });
         }
         var tooltip = d3.select('body').append('div') .attr("class","tooltip").style("color", "blue")
@@ -173,10 +219,13 @@ APP.plotComplete = async function () {
                 .enter().append("circle")
                     .attr("class", function(d, i) {
                         var classes = "points ";
-                        if (d.addedByUser) {
+                        if (d.addedByUser || d.checked) {
                             classes += "user-point";
                         }
                         return classes;
+                    })
+                    .attr("id", function(d, i) {
+                        return "cir-" + d.index;
                     })
                     .attr("r", d => textLengthScale(d.FullTextLength || 0))
                     .attr("fill", function (d, i) {
@@ -359,6 +408,9 @@ $(document).ready(function() {
         var r = $("#r-value").val();
         APP.r = r;
         APP.plotComplete();
+    });
+    $(".table-check").on("change", function(e) {
+        console.log("Im here");
     });
 });
 
