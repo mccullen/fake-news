@@ -73,3 +73,7 @@ svg {
 .my-p {
     margin: 0;
 }
+
+.collapse-btn {
+    float: right;
+}
