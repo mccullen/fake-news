@@ -1,7 +1,3 @@
-Start Server: python -m http.server
-    - localhost:8000
-
-
 TODO:
 - Add processing for url using beautiful soup to classify articles during presentation
 - Collapse: Use weka to show statistics, association rules, etc. on the side of the visualization
