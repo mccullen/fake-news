@@ -10,6 +10,9 @@ Created on Mon Nov 19 12:31:18 2018
 import pandas as pd
 import csv
 from textblob import TextBlob
+import matplotlib.pyplot as plt
+
+
 
 list_nonEnglish = [0,5,12,16,22,39,40,43,44,48,56,67]
 
