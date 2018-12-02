@@ -1,13 +1,9 @@
-# pip install beautifulsoup4
-import http.server
 import socketserver
 from http.server import BaseHTTPRequestHandler, SimpleHTTPRequestHandler
-import cgi
 import json
 from urllib.parse import urlparse, parse_qs
 import csv
 import InputFileAnalyzer as m
-#import urllib.request
 
 PORT = 8000
 

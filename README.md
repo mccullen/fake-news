@@ -21,3 +21,6 @@ git commit -m "My commit message"
 git push
 
 git pull
+
+
+pip install -r requirements.txt
