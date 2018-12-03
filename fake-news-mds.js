@@ -1,19 +1,14 @@
 jQuery.fn.on;
 var APP = APP || {};
-//APP.completeFile = "Fake-news-original.csv";
 APP.completeFile = "Fake-news-original-with-nonEnglish.csv";
-//APP.completeFile = "fake-data.csv";
 APP.fakeFill = "red";
 APP.trustworthyFill = "green";
 APP.unknownFill = "blue";
-//APP.distanceFactor = 50;
-//APP.translate = 0;
 APP.distanceFactor = 25;
 APP.translate = 0;
 APP.textLengthMinRange = 5;
 APP.textLengthMaxRange = 20;
 APP.r = 1;
-// Plot table.
 APP.plotComplete = async function () {
     APP.table = APP.table || await getTable();
 
@@ -84,17 +79,6 @@ APP.plotComplete = async function () {
                     columns: [
                         {
                             render: function(data, type, row) {
-                                    /*
-                                $("#table-check-"+ row.index).on("change", function(e) {
-                                    console.log("HERE");
-                                    var rowChecked = $(this).prop("checked");
-                                    $("#cir-" + row.index).toggleClass("user-point");
-                                    if (rowChecked) {
-                                        row.checked = true;
-                                    } else {
-                                        row.checked = false;
-                                    }
-                                });*/
                                 var html;
                                 html = `<input class="table-check" id="table-check-${row.index}" type="checkbox">`;
                                 return html;
@@ -167,32 +151,20 @@ APP.plotComplete = async function () {
                         }
                     ]
                 });
-                /*
-                $(".table-check").on("change", function(e) {
-                    console.log("here");
-                });*/
             });
         }
         var tooltip = d3.select('body').append('div') .attr("class","tooltip").style("color", "blue")
             .style("background-color", "white").style("border", "1px solid black");
 
-        var graph = TableToGraph();  // See docs below about graph data structure.
-        console.log(graph);  // See graph contents in browser console.
+        var graph = TableToGraph();
+        console.log(graph);
 
-        // Set up the D3 Force layout.
-        // Simulation will compute 2D locations of vertices as graph.vertices[i].x and .y
         var simulation = d3.forceSimulation(graph.vertices)
             .force("spring", d3.forceLink(graph.edges).distance(edge => APP.distanceFactor*(edge.distance + APP.translate))
-                // Set various useful properties of the forceLink here...
-                // Hint: give .distance() an appropriate function.
-
                 )
-            // What other forces would be useful here?
-            //.force("repel", d3.forceManyBody())
             .force("center", d3.forceCenter(400,300))
             .on("tick", ticked);
 
-        //var scale = d3.scaleLinear().domain([250, 16000]).range([5, 20]);
         var sentiments = APP.table.map(function(d) {
             return Number(d.TotalSentiment);
         });
@@ -203,13 +175,10 @@ APP.plotComplete = async function () {
         var textLengthScale = d3.scaleLinear().domain([d3.min(textLengths), d3.max(textLengths)]).range([APP.textLengthMinRange, APP.textLengthMaxRange]);
 
         var svg = d3.select("#info-vis");
-        //svg.attr("width", "100%").attr("height", "100%");
-        //var zoomLayer = svg.append("g");
         var zoomLayer = svg.select("g");
         var zoomed = function() {
             zoomLayer.attr("transform", d3.event.transform);
           }
-        //svg.call(d3.zoom().scaleExtent([1/2, 12]).on("zoom", zoomed));//.append("g");
         svg.call(d3.zoom().on("zoom", zoomed));
         function ticked() {
             d3.select("g")
@@ -315,46 +284,25 @@ APP.plotComplete = async function () {
             }
         }
 
-
-        ////////////// Completed Code - no need to edit ///////////////
-
-        // Create data structure for a complete (all pairs) weighted graph from a csv table.
-        // table = array of n rows, as read by d3.csvParse().
-        // Returns graph object where:
-        //	graph.vertices = array of n vertices, each vertex is dict of attr:value pairs from data table.
-        //  graph.edges = array of n(n-1)/2 edges, where each edge contains:
-        //		edge.source, edge.target = references to vertex objects in graph.vertices.
-        //		edge.distance = Distance(source, target).
-        //  graph.attrs = array of attribute names in the table, not including "Name".
-        //  graph.norms = dict of zscore normalization factors for each attribute, for Distance().
         function TableToGraph() {
             var selectedAttributes = $(".attribute-selection input:checked")
                 .map(function() {
                     return this.value;
                 }).get();
             var graph = {'vertices':APP.table, 'edges':[], 'norms':{}, 'attrs': selectedAttributes};
-            // Compute zscore norms for each attribute:
             for (var attr of graph.attrs)
                 graph.norms[attr] = d3.deviation(APP.table, row => row[attr]);
-            // Compute all-pairs edges as array of {source:ref, target:ref, distance:value}
             APP.table.forEach( (src, isrc) =>
                 APP.table.forEach( (dst, idst) => {
-                    if(isrc < idst)	 // no duplicate edges
+                    if(isrc < idst)
                         graph.edges.push( {'source': src, 'target': dst, 'distance': Distance(src,dst,graph.norms, APP.r)} );
             }));
             return graph;
         }
 
-        // Distance metric, computes normalized high-dimensional distance between 2 rows in the table.
-        // r1, r2 = references to row (vertex) objects.
-        // norms = the attribute zscore normalization factors.
         function Distance(r1, r2, norms, r) {
             r = r || 1;
             console.log(r);
-            //return d3.sum(Object.keys(norms).map(attr =>
-            //        Math.abs(r1[attr] - r2[attr]) / norms[attr] ));  // L1
-            //return Math.sqrt(d3.sum(Object.keys(norms).map(attr =>
-            //		Math.pow((r1[attr] - r2[attr])/norms[attr], 2)))); // L2
             return Math.pow(d3.sum(Object.keys(norms).map(attr => 
                 Math.abs(Math.pow((r1[attr] - r2[attr])/norms[attr], r)))), 1/r);
         }
