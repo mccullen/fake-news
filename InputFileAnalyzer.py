@@ -18,8 +18,6 @@ def ExtractingNumericFeatures(Dict_Input):
 
 # Importing the Input File
 
- #input_user = pd.read_csv('input.csv')
- 
 
  Claimed_Links = [Excel_File_Claimed.Sites][0].tolist()
  Fake_List_1   = [Excel_File_Fake1.Name][0].tolist()

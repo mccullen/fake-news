@@ -110,9 +110,3 @@ with open('Fake-news-original.csv', mode='a', newline="") as input_file:
              ,PotentialFake[row],NumberAuthor[row],TitleLength[row],FullTextLength[row],TextLength[row],CapitalWordTitle[row],NumberOfQuotes[row]
              ,Title_sentiment[row],Text_sentiment[row],Description_sentiment[row]])
 
-#Output_DataFrame = pd.DataFrame([titles],[texts],[descriptions],[authors],[urls],[PotentialFake],[NumberAuthor]
-#                                ,[TitleLength],[FullTextLength],[TextLength],[CapitalWordTitle],[NumberOfQuotes]
-#                                ,[Title_sentiment],[Text_sentiment],[Description_sentiment],columns=['Title','Text','Description'
-#                                ,'Author','URL','PotentialFake','NumberAuthor','TitleLength','FullTextLength','TextLength'
-#                                ,'CapitalWordTitle','NumberOfQuotes','Title_sentiment','Text_sentiment','Description_sentiment'])
-#Output_DataFrame.to_csv('Fake-news-original.csv',sep=',',index=False)

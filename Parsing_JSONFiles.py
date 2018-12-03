@@ -69,32 +69,19 @@ for j in range(1,len(onlyFiles)):
          print("this row had issue"+ str(j))
          pass
 
-    
-#with open('dict.csv', 'wb') as csv_file:
-#    writer = csv.writer(csv_file)
-#    for value in News_Seconds.values():
-#       writer.writerow([value])   
+      
 with open('title.csv','w') as csv_file:
   fieldnames = ['Title','Text']  
   writer = csv.DictWriter(csv_file,fieldnames=fieldnames)
   writer.writeheader()
-  for row in range(0,len(Titles)):
-      writer.writerow({'Title':Titles[row],'Text':Texts[row]})
+  for row in range(0,len(title)):
+      writer.writerow({'Title':title[row].encode(),'Text':desci[row].encode()})
 
 with open('Complete.csv','w') as csv_file:
   fieldnames = ['Title','Description','Time','URL','Author']  
   writer = csv.DictWriter(csv_file,fieldnames=fieldnames)
   writer.writeheader()
   for row in range(0,len(title)):
-      writer.writerow({'Title':title[row],'Description':desci[row],'Time':time[row],'URL':url[row],'Author':author[row]})
-#import csv
-#
-#with open('names.csv', 'w') as csvfile:
-#    fieldnames = ['first_name', 'last_name']
-#    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-#
-#    writer.writeheader()
-#    writer.writerow({'first_name': 'Baked', 'last_name': 'Beans'})
-#    writer.writerow({'first_name': 'Lovely', 'last_name': 'Spam'})
-#    writer.writerow({'first_name': 'Wonderful', 'last_name': 'Spam'})
+      writer.writerow({'Title':title[row].encode(),'Description':desci[row].encode(),'Time':time[row],'URL':url[row],'Author':author[row]})
+
     
