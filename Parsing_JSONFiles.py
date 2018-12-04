@@ -45,8 +45,6 @@ for j in range(1,len(onlyFiles)):
  with open(directory+"/"+ onlyFiles[j]) as json_data:
     d = json.load(json_data)
     try:
-      #Text        = d['text']
-      #News_article['Text'].append(Text)
       text        = d['text']
       title_second = d['title']
       News_Seconds['Text'].append(text)
@@ -59,7 +57,6 @@ for j in range(1,len(onlyFiles)):
       Publish_time = d['publish_date']
       Source_URL   = d['source_url']
       Authors      = d['authors']
-      #print(d['meta_data'])
       title.append(Title )
       time.append(Publish_time)
       url.append(Source_URL)
