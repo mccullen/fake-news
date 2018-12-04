@@ -17,12 +17,11 @@ directory = 'News Articles'
 onlyFiles = [f for f in listdir(directory) if isfile(join(directory,f))]
 
 News_article = {}
-News_article['Title'] = [];
-News_article['Description'] = [];
-News_article['Publish_time'] = [];
-News_article['Source_URL'] = [];
-News_article['Authors'] = [];
-#News_article['Text'] = [];
+News_article['Title'] = []
+News_article['Description'] = []
+News_article['Publish_time'] = []
+News_article['Source_URL'] = []
+News_article['Authors'] = []
 News_Seconds = {}
 News_Seconds['Title']  = []
 News_Seconds['Text'] = []
